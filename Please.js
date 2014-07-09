@@ -175,13 +175,7 @@
 			return Math.random() * (max - min) + min;
 		}
 		function constrain(num, min, max){
-			if (num < min) {
-				num = min;
-			}
-			else if(num > max){
-				num = max;
-			}
-			return num;
+			return Math.max(min, Math.min(num, max));
 		}
 		function convert_to_format(format_string, array){
 			switch(format_string){
