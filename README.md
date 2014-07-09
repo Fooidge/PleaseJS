@@ -11,7 +11,7 @@ Please.make_scheme(
 	h: 145,
 	s: .7,
 	v: .6
-}
+},
 {
 	scheme_type: 'triadic',
 	format: 'rgb-string'
