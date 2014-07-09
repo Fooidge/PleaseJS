@@ -165,7 +165,7 @@
 			format: 'hex',
 		};
 		var Scheme_options = {
-			scheme_type: 'complementary',
+			scheme_type: 'analogous',
 			format: 'hex'
 		};
 		function random_int(min, max){
@@ -173,6 +173,15 @@
 		}
 		function random_float(min, max){
 			return Math.random() * (max - min) + min;
+		}
+		function constrain(num, min, max){
+			if (num < min) {
+				num = min;
+			}
+			else if(num > max){
+				num = max;
+			}
+			return num;
 		}
 		function convert_to_format(format_string, array){
 			switch(format_string){
@@ -213,6 +222,21 @@
 			}
 			return copy;
 		}
+		Please.NAME_to_HEX = function(name){
+			if(name in color_data){
+				return color_data[name];
+			}
+			else{
+				console.log('Color name not recognized.');
+			}
+		}
+		Please.NAME_to_HSV = function(name){
+			return Please.HEX_to_RGB(Please.NAME_to_HEX(name));
+		}
+		Please.NAME_to_HSV = function(name){
+			return Please.HEX_to_HSV(Please.NAME_to_HEX(name));
+		}
+		//accepts hex string, produces RGB object
 		Please.HEX_to_RGB = function(hex){
 			var regex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 			hex = hex.replace( regex, function( m, r, g, b ) {
@@ -225,11 +249,13 @@
 				b: parseInt(result[3], 16)
 			} : null;
 		}
+		//accepts RGB object, produces hex string
 		Please.RGB_to_HEX = function(RGB){
 			return "#" +
 			(( 1 << 24 ) + ( RGB.r << 16 ) + ( RGB.g << 8 ) + RGB.b )
 			.toString( 16 ).slice( 1 );
 		}
+		//accepts HSV object, returns RGB object
 		Please.HSV_to_RGB = function(HSV){
 			var r, g, b;
 			var h = ( HSV.h / 360 );
@@ -260,6 +286,7 @@
 				b:Math.floor( b * 255 )
 			}
 		}
+		//accepts RGB object, returns HSV object
 		Please.RGB_to_HSV = function(RGB){
 			var r, g, b;
 			var computed_H = 0;
@@ -291,12 +318,15 @@
 				v: computed_V
 			}
 		}
+		//accepts HSV object, returns hex string
 		Please.HSV_to_HEX = function(HSV){
 			return Please.RGB_to_HEX(Please.HSV_to_RGB(HSV));
 		}
+		//accepts hex string, returns HSV object
 		Please.HEX_to_HSV = function(hex){
 			return Please.RGB_to_HSV(Please.HEX_to_RGB(hex));
 		}
+		//accepts HSV object and options object, returns list or single object depending on options
 		Please.make_scheme = function(HSV, options){
 			//clone base please options
 			var scheme_options = copy_object(Scheme_options);
@@ -322,23 +352,31 @@
 			switch(scheme_options.scheme_type.toLowerCase()){
 				case 'monochromatic':
 				case 'mono':
-					for (var i = 0; i < 4; i++) {
+					for (var i = 1; i <= 2; i++) {
 						var adjusted = clone(HSV);
 
-						var adjusted_s = random_float((adjusted.s-.25),(adjusted.s+.25));
-						if (adjusted_s < 0)
-							adjusted_s = 0;
-						if (adjusted_s > 1)
-							adjusted_s = 1;
+						var adjusted_s = adjusted.s + (.1 * i);
+						adjusted_s = constrain(adjusted_s,0,1);
 
-						var adjusted_v = random_float((adjusted.v-.25),(adjusted.v+.25));
-						if (adjusted_v < 0)
-							adjusted_v = 0;
-						if (adjusted_v > 1)
-							adjusted_v = 1;
+						var adjusted_v = adjusted.v + (.1 * i);
+						adjusted_v = constrain(adjusted_v,0,1);
 
 						adjusted.s = adjusted_s;
-						adjusted_v = adjusted_v;
+						adjusted.v = adjusted_v;
+
+						scheme.push(adjusted);
+					}
+					for (var i = 1; i < 2; i++) {
+						var adjusted = clone(HSV);
+
+						var adjusted_s = adjusted.s - (.1 * i);
+						adjusted_s = constrain(adjusted_s,0,1);
+
+						var adjusted_v = adjusted.v - (.1 * i);
+						adjusted_v = constrain(adjusted_v,0,1);
+
+						adjusted.s = adjusted_s;
+						adjusted.v = adjusted_v;
 
 						scheme.push(adjusted);
 					}
@@ -395,9 +433,10 @@
 					scheme.push(secondary);
 				break;
 				case 'analogous':
-					for (var i = 0; i < 5; i++) {
+				case 'ana':
+					for (var i = 1; i <= 5; i++) {
 						var adjusted = clone(HSV);
-						adjusted.h += 20;
+						adjusted.h += (20 * i);
 						if (adjusted.h > 360) {
 							adjusted.h -= 360;
 						}
@@ -423,6 +462,7 @@
 			convert_to_format(scheme_options.format.toLowerCase(),scheme);
 			return scheme;
 		}
+		//accepts options object returns list or single color
 		Please.make_color = function(options){
 			var color = [];
 			//clone base please options
@@ -437,7 +477,6 @@
 				for(var key in options){
 					if(options.hasOwnProperty(key)){
 						color_options[key] = options[key];
-						//console.log("color_options key ="+color_options[key]+" options key="+options[key]);
 					}
 				}
 			}
@@ -468,13 +507,7 @@
 						hue = random_hue;
 					}
 					else{
-						hue = color_options.hue;
-						if (hue > 360) {
-							hue = 360;
-						}
-						else if (hue < 0){
-							hue = 0;
-						}
+						hue = constrain(color_options.hue, 0, 360);
 					}
 					//set saturation
 					if (color_options.greyscale == true || color_options.grayscale == true) {
@@ -487,13 +520,7 @@
 						saturation = .4;
 					}
 					else{
-						saturation = color_options.saturation;
-						if (saturation > 1) {
-							saturation = 1;
-						}
-						else if (saturation < 0) {
-							saturation = 0;
-						}
+						saturation = constrain(color_options.saturation, 0, 1);
 					}
 					//set value
 					if(color_options.full_random == true){
@@ -506,13 +533,7 @@
 						value = .75;
 					}
 					else{
-						value = color_options.value;
-						if (value > 1) {
-							value = 1;
-						}
-						else if (value < 0) {
-							value = 0;
-						}
+						value = constrain(color_options.value, 0 , 1);
 					}
 					color.push({h: hue, s: saturation, v: value});
 				}
@@ -525,7 +546,7 @@
 
 		return Please;
 	}
-	//global
+	//globalize it 3/60
 	if (typeof(Please) == 'undefined') {
 		window.Please = define_Please();
 	}

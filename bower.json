@@ -1,0 +1,23 @@
+{
+  "name": "pleasejs",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Fooidge/PleaseJS",
+  "authors": [
+    "Fooidge"
+  ],
+  "description": "JS library to generate random pleasing colors/color schemes",
+  "main": "please.js",
+  "keywords": [
+    "color",
+    "scheme",
+    "random"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
