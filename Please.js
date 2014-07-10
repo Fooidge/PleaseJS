@@ -152,6 +152,7 @@
 			yellow: "FFFF00",
 			yellowgreen: "9ACD32"
 		};
+
 		var Color_options = {
 			hue: null,
 			saturation: null,
@@ -164,19 +165,24 @@
 			colors_returned: 1,
 			format: 'hex',
 		};
+
 		var Scheme_options = {
 			scheme_type: 'analogous',
 			format: 'hex'
 		};
+
 		function random_int(min, max){
 			return Math.floor(Math.random() * (max - min + 1)) + min;
 		}
+
 		function random_float(min, max){
 			return Math.random() * (max - min) + min;
 		}
-		function constrain(num, min, max){
+
+		function clamp(num, min, max){
 			return Math.max(min, Math.min(num, max));
 		}
+
 		function convert_to_format(format_string, array){
 			switch(format_string){
 				case 'hex':
@@ -207,6 +213,7 @@
 			}
 			return array;
 		}
+
 		function copy_object(object){
 			var copy = {};
 			for(var key in object){
@@ -216,6 +223,7 @@
 			}
 			return copy;
 		}
+
 		Please.NAME_to_HEX = function(name){
 			if(name in color_data){
 				return color_data[name];
@@ -224,12 +232,15 @@
 				console.log('Color name not recognized.');
 			}
 		}
+
 		Please.NAME_to_HSV = function(name){
 			return Please.HEX_to_RGB(Please.NAME_to_HEX(name));
 		}
+
 		Please.NAME_to_HSV = function(name){
 			return Please.HEX_to_HSV(Please.NAME_to_HEX(name));
 		}
+
 		//accepts hex string, produces RGB object
 		Please.HEX_to_RGB = function(hex){
 			var regex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -243,12 +254,14 @@
 				b: parseInt(result[3], 16)
 			} : null;
 		}
+
 		//accepts RGB object, produces hex string
 		Please.RGB_to_HEX = function(RGB){
 			return "#" +
 			(( 1 << 24 ) + ( RGB.r << 16 ) + ( RGB.g << 8 ) + RGB.b )
 			.toString( 16 ).slice( 1 );
 		}
+
 		//accepts HSV object, returns RGB object
 		Please.HSV_to_RGB = function(HSV){
 			var r, g, b;
@@ -280,6 +293,7 @@
 				b:Math.floor( b * 255 )
 			}
 		}
+
 		//accepts RGB object, returns HSV object
 		Please.RGB_to_HSV = function(RGB){
 			var r, g, b;
@@ -312,14 +326,17 @@
 				v: computed_V
 			}
 		}
+
 		//accepts HSV object, returns hex string
 		Please.HSV_to_HEX = function(HSV){
 			return Please.RGB_to_HEX(Please.HSV_to_RGB(HSV));
 		}
+
 		//accepts hex string, returns HSV object
 		Please.HEX_to_HSV = function(hex){
 			return Please.RGB_to_HSV(Please.HEX_to_RGB(hex));
 		}
+		
 		//accepts HSV object and options object, returns list or single object depending on options
 		Please.make_scheme = function(HSV, options){
 			//clone base please options
@@ -350,10 +367,10 @@
 						var adjusted = clone(HSV);
 
 						var adjusted_s = adjusted.s + (.1 * i);
-						adjusted_s = constrain(adjusted_s,0,1);
+						adjusted_s = clamp(adjusted_s,0,1);
 
 						var adjusted_v = adjusted.v + (.1 * i);
-						adjusted_v = constrain(adjusted_v,0,1);
+						adjusted_v = clamp(adjusted_v,0,1);
 
 						adjusted.s = adjusted_s;
 						adjusted.v = adjusted_v;
@@ -364,10 +381,10 @@
 						var adjusted = clone(HSV);
 
 						var adjusted_s = adjusted.s - (.1 * i);
-						adjusted_s = constrain(adjusted_s,0,1);
+						adjusted_s = clamp(adjusted_s,0,1);
 
 						var adjusted_v = adjusted.v - (.1 * i);
-						adjusted_v = constrain(adjusted_v,0,1);
+						adjusted_v = clamp(adjusted_v,0,1);
 
 						adjusted.s = adjusted_s;
 						adjusted.v = adjusted_v;
@@ -501,7 +518,7 @@
 						hue = random_hue;
 					}
 					else{
-						hue = constrain(color_options.hue, 0, 360);
+						hue = clamp(color_options.hue, 0, 360);
 					}
 					//set saturation
 					if (color_options.greyscale == true || color_options.grayscale == true) {
@@ -514,7 +531,7 @@
 						saturation = .4;
 					}
 					else{
-						saturation = constrain(color_options.saturation, 0, 1);
+						saturation = clamp(color_options.saturation, 0, 1);
 					}
 					//set value
 					if(color_options.full_random == true){
@@ -527,7 +544,7 @@
 						value = .75;
 					}
 					else{
-						value = constrain(color_options.value, 0 , 1);
+						value = clamp(color_options.value, 0 , 1);
 					}
 					color.push({h: hue, s: saturation, v: value});
 				}
