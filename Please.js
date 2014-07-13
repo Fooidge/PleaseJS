@@ -171,33 +171,33 @@
 			format: 'hex'
 		};
 
-		function random_int(min, max){
-			return Math.floor(Math.random() * (max - min + 1)) + min;
+		function random_int( min, max ){
+			return Math.floor( Math.random() * ( max - min + 1 )) + min;
 		}
 
-		function random_float(min, max){
-			return Math.random() * (max - min) + min;
+		function random_float( min, max ){
+			return Math.random() * ( max - min ) + min;
 		}
 
-		function clamp(num, min, max){
-			return Math.max(min, Math.min(num, max));
+		function clamp( num, min, max ){
+			return Math.max( min, Math.min( num, max ));
 		}
 
-		function convert_to_format(format_string, array){
-			switch(format_string){
+		function convert_to_format( format_string, array ){
+			switch( format_string ){
 				case 'hex':
-					for (var i = 0; i < array.length; i++) {
-						array[i] = Please.HSV_to_HEX(array[i]);
+					for ( var i = 0; i < array.length; i++ ) {
+						array[i] = Please.HSV_to_HEX( array[i] );
 					}
 					break;
 				case 'rgb':
-					for (var i = 0; i < array.length; i++) {
-						array[i] = Please.HSV_to_RGB(array[i]);
+					for ( var i = 0; i < array.length; i++ ) {
+						array[i] = Please.HSV_to_RGB( array[i] );
 					}
 					break;
 				case 'rgb-string':
-					for (var i = 0; i < array.length; i++) {
-						var raw_rgb =  Please.HSV_to_RGB(array[i]);
+					for ( var i = 0; i < array.length; i++ ) {
+						var raw_rgb =  Please.HSV_to_RGB( array[i] );
 						array[i] =
 							"rgb(" +
 							raw_rgb.r + "," +
@@ -208,62 +208,62 @@
 				case 'hsv':
 					break;
 				default:
-					console.log('Format not recognized.');
+					console.log( 'Format not recognized.' );
 					break;
 			}
 			return array;
 		}
 
-		function copy_object(object){
+		function copy_object( object ){
 			var copy = {};
-			for(var key in object){
-				if(object.hasOwnProperty(key)){
+			for( var key in object ){
+				if( object.hasOwnProperty( key )){
 					copy[key] = object[key];
 				}
 			}
 			return copy;
 		}
 
-		Please.NAME_to_HEX = function(name){
-			if(name in color_data){
+		Please.NAME_to_HEX = function( name ){
+			if( name in color_data ){
 				return color_data[name];
 			}
 			else{
-				console.log('Color name not recognized.');
+				console.log( 'Color name not recognized.' );
 			}
 		}
 
-		Please.NAME_to_HSV = function(name){
-			return Please.HEX_to_RGB(Please.NAME_to_HEX(name));
+		Please.NAME_to_HSV = function( name ){
+			return Please.HEX_to_RGB( Please.NAME_to_HEX( name ));
 		}
 
-		Please.NAME_to_HSV = function(name){
-			return Please.HEX_to_HSV(Please.NAME_to_HEX(name));
+		Please.NAME_to_HSV = function( name ){
+			return Please.HEX_to_HSV( Please.NAME_to_HEX( name ));
 		}
 
 		//accepts hex string, produces RGB object
-		Please.HEX_to_RGB = function(hex){
+		Please.HEX_to_RGB = function( hex ){
 			var regex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 			hex = hex.replace( regex, function( m, r, g, b ) {
 				return r + r + g + g + b + b;
 			});
 			var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec( hex );
 			return result ? {
-				r: parseInt(result[1], 16),
-				g: parseInt(result[2], 16),
-				b: parseInt(result[3], 16)
+				r: parseInt( result[1], 16 ),
+				g: parseInt( result[2], 16 ),
+				b: parseInt( result[3], 16 )
 			} : null;
 		}
 
 		//accepts RGB object, produces hex string
-		Please.RGB_to_HEX = function(RGB){
+		Please.RGB_to_HEX = function( RGB ){
 			return "#" +
 			(( 1 << 24 ) + ( RGB.r << 16 ) + ( RGB.g << 8 ) + RGB.b )
 			.toString( 16 ).slice( 1 );
 		}
 
 		//accepts HSV object, returns RGB object
-		Please.HSV_to_RGB = function(HSV){
+		Please.HSV_to_RGB = function( HSV ){
 			var r, g, b;
 			var h = ( HSV.h / 360 );
 			var s = HSV.s;
@@ -295,7 +295,7 @@
 		}
 
 		//accepts RGB object, returns HSV object
-		Please.RGB_to_HSV = function(RGB){
+		Please.RGB_to_HSV = function( RGB ){
 			var r, g, b;
 			var computed_H = 0;
 			var computed_S = 0;
@@ -316,7 +316,7 @@
 			}
 			// Colors other than black-gray-white:
 			var d = ( r == min_RGB ) ? g - b : (( b == min_RGB ) ? r - g : b - r);
-			var h = ( r == min_RGB ) ? 3 : (( b == min_RGB ) ? 1 : 5);
+			var h = ( r == min_RGB ) ? 3 : (( b == min_RGB ) ? 1 : 5 );
 			computed_H = 60 * ( h - d / ( max_RGB - min_RGB ));
 			computed_S = ( max_RGB - min_RGB ) / max_RGB;
 			computed_V = max_RGB;
@@ -328,24 +328,24 @@
 		}
 
 		//accepts HSV object, returns hex string
-		Please.HSV_to_HEX = function(HSV){
-			return Please.RGB_to_HEX(Please.HSV_to_RGB(HSV));
+		Please.HSV_to_HEX = function( HSV ){
+			return Please.RGB_to_HEX( Please.HSV_to_RGB( HSV ));
 		}
 
 		//accepts hex string, returns HSV object
-		Please.HEX_to_HSV = function(hex){
-			return Please.RGB_to_HSV(Please.HEX_to_RGB(hex));
+		Please.HEX_to_HSV = function( hex ){
+			return Please.RGB_to_HSV( Please.HEX_to_RGB( hex ));
 		}
 		
 		//accepts HSV object and options object, returns list or single object depending on options
-		Please.make_scheme = function(HSV, options){
+		Please.make_scheme = function( HSV, options ){
 			//clone base please options
-			var scheme_options = copy_object(Scheme_options);
+			var scheme_options = copy_object( Scheme_options );
 
-			if(options != null){
+			if( options != null ){
 			//override base Please options
-				for(var key in options){
-					if(options.hasOwnProperty(key)){
+				for( var key in options ){
+					if( options.hasOwnProperty( key )){
 						scheme_options[key] = options[key];
 					}
 				}
@@ -353,140 +353,140 @@
 
 			var scheme = [HSV];
 			//DRY for repeated cloning
-			function clone(HSV){
+			function clone( HSV ){
 				return{
 					h: HSV.h,
 					s: HSV.s,
 					v: HSV.v
 				}
 			}
-			switch(scheme_options.scheme_type.toLowerCase()){
+			switch( scheme_options.scheme_type.toLowerCase() ){
 				case 'monochromatic':
 				case 'mono':
-					for (var i = 1; i <= 2; i++) {
+					for ( var i = 1; i <= 2; i++ ) {
 						var adjusted = clone(HSV);
 
-						var adjusted_s = adjusted.s + (.1 * i);
-						adjusted_s = clamp(adjusted_s,0,1);
+						var adjusted_s = adjusted.s + ( .1 * i );
+						adjusted_s = clamp( adjusted_s, 0, 1 );
 
-						var adjusted_v = adjusted.v + (.1 * i);
-						adjusted_v = clamp(adjusted_v,0,1);
+						var adjusted_v = adjusted.v + ( .1 * i );
+						adjusted_v = clamp( adjusted_v, 0, 1 );
 
 						adjusted.s = adjusted_s;
 						adjusted.v = adjusted_v;
 
 						scheme.push(adjusted);
 					}
-					for (var i = 1; i < 2; i++) {
-						var adjusted = clone(HSV);
+					for ( var i = 1; i < 2; i++ ) {
+						var adjusted = clone( HSV );
 
-						var adjusted_s = adjusted.s - (.1 * i);
-						adjusted_s = clamp(adjusted_s,0,1);
+						var adjusted_s = adjusted.s - ( .1 * i );
+						adjusted_s = clamp( adjusted_s, 0, 1 );
 
-						var adjusted_v = adjusted.v - (.1 * i);
-						adjusted_v = clamp(adjusted_v,0,1);
+						var adjusted_v = adjusted.v - ( .1 * i );
+						adjusted_v = clamp( adjusted_v, 0, 1 );
 
 						adjusted.s = adjusted_s;
 						adjusted.v = adjusted_v;
 
-						scheme.push(adjusted);
+						scheme.push( adjusted );
 					}
 				break;
 				case 'complementary':
 				case 'complement':
-					var adjusted = clone(HSV);
+					var adjusted = clone( HSV );
 					adjusted.h += 180;
 					if( adjusted.h > 360 ){
 						adjusted.h -= 360;
 					}
-					scheme.push(adjusted);
+					scheme.push( adjusted );
 				break;
 				//30 degree seperation
 				case 'split-complementary':
 				case 'split-complement':
 				case 'split':
-					var adjusted = clone(HSV);
+					var adjusted = clone( HSV );
 					adjusted.h += 165;
 					if( adjusted.h > 360 ){
 						adjusted.h -= 360;
 					}
-					scheme.push(adjusted);
-					var adjusted = clone(HSV);
+					scheme.push( adjusted );
+					var adjusted = clone( HSV );
 					adjusted.h -= 165;
 					if( adjusted.h < 0 ){
 						adjusted.h += 360;
 					}
-					scheme.push(adjusted);
+					scheme.push( adjusted );
 				break;
 				case 'double-complementary':
 				case 'double-complement':
 				case 'double':
 					//first basic complement
-					var adjusted = clone(HSV);
+					var adjusted = clone( HSV );
 					adjusted.h += 180;
 					if( adjusted.h > 360 ){
 						adjusted.h -= 360;
 					}
-					scheme.push(adjusted);
+					scheme.push( adjusted );
 					//then offset
-					var adjusted = clone(HSV);
+					var adjusted = clone( HSV );
 					adjusted.h += 30;
 					if( adjusted.h > 360 ){
 						adjusted.h -= 360;
 					}
-					var secondary = clone(adjusted);
-					scheme.push(adjusted);
+					var secondary = clone( adjusted );
+					scheme.push( adjusted );
 					//complement offset
 					secondary.h += 180;
 					if( secondary.h > 360 ){
 						secondary.h -= 360;
 					}
-					scheme.push(secondary);
+					scheme.push( secondary );
 				break;
 				case 'analogous':
 				case 'ana':
-					for (var i = 1; i <= 5; i++) {
-						var adjusted = clone(HSV);
-						adjusted.h += (20 * i);
-						if (adjusted.h > 360) {
+					for ( var i = 1; i <= 5; i++ ) {
+						var adjusted = clone( HSV );
+						adjusted.h += ( 20 * i );
+						if ( adjusted.h > 360 ) {
 							adjusted.h -= 360;
 						}
-						scheme.push(adjusted);
+						scheme.push( adjusted );
 					}
 				break;
 				case 'triadic':
 				case 'triad':
 				case 'tri':
-					for (var i = 1; i < 3; i++) {
-						var adjusted = clone(HSV);
-						adjusted.h += (120 * i);
+					for ( var i = 1; i < 3; i++ ) {
+						var adjusted = clone( HSV );
+						adjusted.h += ( 120 * i );
 						if( adjusted.h > 360 ){
 							adjusted.h -= 360;
 						}
-						scheme.push(adjusted);
+						scheme.push( adjusted );
 					};
 				break;
 				default:
-					console.log('Color scheme not recognized.')
+					console.log( 'Color scheme not recognized.' )
 				break;
 			}
-			convert_to_format(scheme_options.format.toLowerCase(),scheme);
+			convert_to_format( scheme_options.format.toLowerCase(), scheme );
 			return scheme;
 		}
 		//accepts options object returns list or single color
-		Please.make_color = function(options){
+		Please.make_color = function( options ){
 			var color = [];
 			//clone base please options
 			var color_options = {};
-			for(var key in Color_options){
-				if(Color_options.hasOwnProperty(key)){
+			for( var key in Color_options ){
+				if( Color_options.hasOwnProperty( key )){
 					color_options[key] = Color_options[key];
 				}
 			}
-			if(options != null){
+			if( options != null ){
 			//override base Please options
-				for(var key in options){
-					if(options.hasOwnProperty(key)){
+				for( var key in options ){
+					if( options.hasOwnProperty( key )){
 						color_options[key] = options[key];
 					}
 				}
@@ -495,70 +495,69 @@
 			var base_color;
 			if ( color_options.base_color.length > 0 ) {
 				base_color = color_data[color_options.base_color.toLowerCase()];
-				base_color = Please.HEX_to_HSV(base_color);
+				base_color = Please.HEX_to_HSV( base_color );
 			}
 			for ( var i = 0; i < color_options.colors_returned; i++ ) {
 				var random_hue = random_int( 0, 360 );
 				var hue,saturation,value;
 				if( base_color != null ){
-					hue = random_int( (base_color.h - 5), (base_color.h + 5) );
-					saturation = random_float(.4, .85);
-					value = random_float(.4, .85);
+					hue = random_int( ( base_color.h - 5 ), ( base_color.h + 5 ));
+					saturation = random_float( .4, .85 );
+					value = random_float( .4, .85 );
 					color.push({h: hue, s: saturation, v: value});
 				}
 				else{
-					//make hue goldennnnnnnn
-					if(color_options.greyscale == true || color_options.grayscale == true){
+					if( color_options.greyscale == true || color_options.grayscale == true ){
 						hue = 0;
 					}
-					else if(color_options.golden == true){
-						hue = (random_hue+(random_hue/0.618033988749895));
+					//make hue goldennnnnnnn
+					else if( color_options.golden == true ){
+						hue =  ( random_hue + ( random_hue / 0.618033988749895 ));
 					}
-					else if(color_options.hue == null || color_options.full_random == true){
+					else if( color_options.hue == null || color_options.full_random == true ){
 						hue = random_hue;
 					}
 					else{
-						hue = clamp(color_options.hue, 0, 360);
+						hue = clamp( color_options.hue, 0, 360 );
 					}
 					//set saturation
-					if (color_options.greyscale == true || color_options.grayscale == true) {
+					if ( color_options.greyscale == true || color_options.grayscale == true ) {
 						saturation = 0; //if they want greyscale no saturation allowed
 					}
-					else if (color_options.full_random == true){
-						saturation = random_float(0,1);
+					else if ( color_options.full_random == true ){
+						saturation = random_float( 0, 1 );
 					}
-					else if (color_options.saturation == null){
+					else if ( color_options.saturation == null ){
 						saturation = .4;
 					}
 					else{
-						saturation = clamp(color_options.saturation, 0, 1);
+						saturation = clamp( color_options.saturation, 0, 1 );
 					}
 					//set value
-					if(color_options.full_random == true){
-						value = random_float(0,1);
+					if( color_options.full_random == true ){
+						value = random_float( 0, 1 );
 					}
-					else if(color_options.greyscale == true || color_options.grayscale == true){
+					else if( color_options.greyscale == true || color_options.grayscale == true ){
 						value = random_float(.15,.75)
 					}
-					else if(color_options.value == null){
+					else if( color_options.value == null ){
 						value = .75;
 					}
 					else{
-						value = clamp(color_options.value, 0 , 1);
+						value = clamp( color_options.value, 0 , 1 );
 					}
-					color.push({h: hue, s: saturation, v: value});
+					color.push( {h: hue, s: saturation, v: value} );
 				}
 			}
 			//output options based on format
-			convert_to_format(color_options.format.toLowerCase(),color);
-			if (color.length === 1) {return color[0];}
+			convert_to_format( color_options.format.toLowerCase(),color );
+			if ( color.length === 1 ){return color[0];}
 			else{return color;}
 		}
-
 		return Please;
 	}
 	//globalize it 3/60
-	if (typeof(Please) == 'undefined') {
+	if( typeof( Please ) == 'undefined' ) {
 		window.Please = define_Please();
 	}
-})(window);
+})( window );
