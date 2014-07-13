@@ -171,12 +171,20 @@
 			format: 'hex'
 		};
 
-		function random_int( min, max ){
-			return Math.floor( Math.random() * ( max - min + 1 )) + min;
+		function random_int( min, max, randomiser ){
+			var random = Math.random;
+			if (randomiser instanceof RC4Random) {
+				random = randomiser.random;
+			}
+			return Math.floor( random() * ( max - min + 1 )) + min;
 		}
 
-		function random_float( min, max ){
-			return Math.random() * ( max - min ) + min;
+		function random_float( min, max, randomiser ){
+			var random = Math.random;
+			if (randomiser instanceof RC4Random) {
+				random = randomiser.random;
+			}
+			return random() * ( max - min ) + min;
 		}
 
 		function clamp( num, min, max ){
@@ -222,6 +230,41 @@
 				}
 			}
 			return copy;
+		}
+
+		function RC4Random(seed) {
+			var key_schedule = [];
+			var key_schedule_i = 0;
+			var key_schedule_j = 0;
+			
+			for (var k = 0; k < 256; k++) key_schedule[k] = k;
+			
+			for (var i = 0, j = 0; i < 256; i++) {
+				j = (j + key_schedule[i] + seed.charCodeAt(i % seed.length)) % 256;
+				
+				var t = key_schedule[i];
+				key_schedule[i] = key_schedule[j];
+				key_schedule[j] = t;
+			}
+			
+			function get_random_byte() {
+				key_schedule_i = (key_schedule_i + 1) % 256;
+				key_schedule_j = (key_schedule_j + key_schedule[key_schedule_i]) % 256;
+				
+				var t = key_schedule[key_schedule_i];
+				key_schedule[key_schedule_i] = key_schedule[key_schedule_j];
+				key_schedule[key_schedule_j] = t;
+				
+				return key_schedule[(key_schedule[key_schedule_i] + key_schedule[key_schedule_j]) % 256];
+			}
+			
+			this.random = function() {
+				for (var i = 0, number = 0, multiplier = 1; i < 8; i++) {
+					number += get_random_byte() * multiplier;
+					multiplier *= 256;
+				}
+				return number / 18446744073709551616;
+			}
 		}
 
 		Please.NAME_to_HEX = function( name ){
@@ -336,7 +379,7 @@
 		Please.HEX_to_HSV = function( hex ){
 			return Please.RGB_to_HSV( Please.HEX_to_RGB( hex ));
 		}
-		
+					
 		//accepts HSV object and options object, returns list or single object depending on options
 		Please.make_scheme = function( HSV, options ){
 			//clone base please options
@@ -491,6 +534,13 @@
 					}
 				}
 			}
+
+			var randomiser = null;
+
+			if (typeof color_options.seed === 'string') {
+				randomiser = new RC4Random(color_options.seed);
+			}
+
 			//first, check for a base color
 			var base_color;
 			if ( color_options.base_color.length > 0 ) {
@@ -498,12 +548,12 @@
 				base_color = Please.HEX_to_HSV( base_color );
 			}
 			for ( var i = 0; i < color_options.colors_returned; i++ ) {
-				var random_hue = random_int( 0, 360 );
+				var random_hue = random_int( 0, 360, randomiser );
 				var hue,saturation,value;
 				if( base_color != null ){
-					hue = random_int( ( base_color.h - 5 ), ( base_color.h + 5 ));
-					saturation = random_float( .4, .85 );
-					value = random_float( .4, .85 );
+					hue = random_int( ( base_color.h - 5 ), ( base_color.h + 5 ), randomiser);
+					saturation = random_float( .4, .85, randomiser );
+					value = random_float( .4, .85, randomiser );
 					color.push({h: hue, s: saturation, v: value});
 				}
 				else{
@@ -525,7 +575,7 @@
 						saturation = 0; //if they want greyscale no saturation allowed
 					}
 					else if ( color_options.full_random == true ){
-						saturation = random_float( 0, 1 );
+						saturation = random_float( 0, 1, randomiser );
 					}
 					else if ( color_options.saturation == null ){
 						saturation = .4;
@@ -535,10 +585,10 @@
 					}
 					//set value
 					if( color_options.full_random == true ){
-						value = random_float( 0, 1 );
+						value = random_float( 0, 1, randomiser );
 					}
 					else if( color_options.greyscale == true || color_options.grayscale == true ){
-						value = random_float(.15,.75)
+						value = random_float(.15,.75, randomiser)
 					}
 					else if( color_options.value == null ){
 						value = .75;
