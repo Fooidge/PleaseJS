@@ -512,7 +512,7 @@
 					}
 					//make hue goldennnnnnnn
 					else if( color_options.golden == true ){
-						hue =  ( random_hue + ( random_hue / 0.618033988749895 ));
+						hue =  ( random_hue + ( random_hue / 0.618033988749895 )) % 360;
 					}
 					else if( color_options.hue == null || color_options.full_random == true ){
 						hue = random_hue;
