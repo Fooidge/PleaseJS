@@ -377,20 +377,19 @@
 
 						scheme.push(adjusted);
 					}
-					for ( var i = 1; i < 2; i++ ) {
-						var adjusted = clone( HSV );
+					var adjusted = clone( HSV );
 
-						var adjusted_s = adjusted.s - ( .1 * i );
-						adjusted_s = clamp( adjusted_s, 0, 1 );
+					var adjusted_s = adjusted.s - ( .1 * i );
+					adjusted_s = clamp( adjusted_s, 0, 1 );
 
-						var adjusted_v = adjusted.v - ( .1 * i );
-						adjusted_v = clamp( adjusted_v, 0, 1 );
+					var adjusted_v = adjusted.v - ( .1 * i );
+					adjusted_v = clamp( adjusted_v, 0, 1 );
 
-						adjusted.s = adjusted_s;
-						adjusted.v = adjusted_v;
+					adjusted.s = adjusted_s;
+					adjusted.v = adjusted_v;
 
-						scheme.push( adjusted );
-					}
+					scheme.push( adjusted );
+
 				break;
 				case 'complementary':
 				case 'complement':
