@@ -171,6 +171,10 @@
 			format: 'hex'
 		};
 
+		var Contrast_options = {
+			format: 'hex'
+		}
+
 		function random_int( min, max ){
 			return Math.floor( Math.random() * ( max - min + 1 )) + min;
 		}
@@ -212,6 +216,15 @@
 					break;
 			}
 			return array;
+		}
+
+		function contrast_quotient( HSV ){
+			var RGB = Please.HSV_to_RGB( HSV );
+			var YIQ = ( ( RGB.r * 299 ) +
+						( RGB.g * 587 ) +
+						( RGB.b * 114 )
+					) / 1000;
+			return (YIQ >= 128) ? 'dark' : 'light';
 		}
 
 		function copy_object( object ){
@@ -336,7 +349,7 @@
 		Please.HEX_to_HSV = function( hex ){
 			return Please.RGB_to_HSV( Please.HEX_to_RGB( hex ));
 		}
-		
+
 		//accepts HSV object and options object, returns list or single object depending on options
 		Please.make_scheme = function( HSV, options ){
 			//clone base please options
@@ -394,6 +407,7 @@
 				break;
 				case 'complementary':
 				case 'complement':
+				case 'comp':
 					var adjusted = clone( HSV );
 					adjusted.h += 180;
 					if( adjusted.h > 360 ){
@@ -512,7 +526,7 @@
 					}
 					//make hue goldennnnnnnn
 					else if( color_options.golden == true ){
-						hue =  ( random_hue + ( random_hue / 0.618033988749895 )) % 360;
+						hue = ( random_hue + ( random_hue / 0.618033988749895 )) % 360;
 					}
 					else if( color_options.hue == null || color_options.full_random == true ){
 						hue = random_hue;
@@ -550,10 +564,53 @@
 				}
 			}
 			//output options based on format
-			convert_to_format( color_options.format.toLowerCase(),color );
+			convert_to_format( color_options.format.toLowerCase(), color );
 			if ( color.length === 1 ){return color[0];}
 			else{return color;}
 		}
+		Please.make_contrast = function( HSV, options ){
+
+			//clone base please options
+			var contrast_options = {};
+			for( var key in Contrast_options ){
+				if( Contrast_options.hasOwnProperty( key )){
+					contrast_options[key] = Contrast_options[key];
+				}
+			}
+			if( options != null ){
+			//override base Please options
+				for( var key in options ){
+					if( options.hasOwnProperty( key )){
+						contrast_options[key] = options[key];
+					}
+				}
+			}
+
+			var contrast;
+			var value_range = contrast_quotient( HSV );
+			var contrast_base = Please.make_scheme(
+			HSV,
+			{
+				scheme_type: 'complementary',
+				format: 'hsv'
+			})[1];
+			var adjusted_value;
+			if (value_range === 'dark'){
+				adjusted_value = ( HSV.v - .25 );
+			}
+			else if (value_range === 'light'){
+				adjusted_value = ( HSV.v + .25 );
+			}
+			contrast = [{
+				h: contrast_base.h - 30,
+				s: contrast_base.s,
+				v: adjusted_value
+			}]
+
+			convert_to_format( contrast_options.format.toLowerCase(), contrast );
+			return contrast[0];
+		}
+
 		return Please;
 	}
 	//globalize it 3/60
