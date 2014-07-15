@@ -568,6 +568,7 @@
 			if ( color.length === 1 ){return color[0];}
 			else{return color;}
 		}
+
 		Please.make_contrast = function( HSV, options ){
 
 			//clone base please options
@@ -595,14 +596,14 @@
 				format: 'hsv'
 			})[1];
 			var adjusted_value;
-			if (value_range === 'dark'){
-				adjusted_value = ( HSV.v - .25 );
+			if ( value_range === 'dark' ){
+				adjusted_value = clamp( ( HSV.v - .25 ), 0, 1 );
 			}
-			else if (value_range === 'light'){
-				adjusted_value = ( HSV.v + .25 );
+			else if ( value_range === 'light' ){
+				adjusted_value = clamp( ( HSV.v + .25 ), 0, 1 );
 			}
 			contrast = [{
-				h: contrast_base.h - 30,
+				h: clamp( ( contrast_base.h - 30 ), 0, 360 ),
 				s: contrast_base.s,
 				v: adjusted_value
 			}]
