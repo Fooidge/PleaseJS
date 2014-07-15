@@ -494,7 +494,11 @@
 			//first, check for a base color
 			var base_color;
 			if ( color_options.base_color.length > 0 ) {
-				base_color = color_data[color_options.base_color.toLowerCase()];
+				if ( /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color_options.base_color) === true) {
+					base_color = color_options.base_color;
+				} else {
+					base_color = color_data[color_options.base_color.toLowerCase()];
+				}
 				base_color = Please.HEX_to_HSV( base_color );
 			}
 			for ( var i = 0; i < color_options.colors_returned; i++ ) {
