@@ -155,7 +155,7 @@
 
 		var PHI = 0.618033988749895;
 
-		var Color_options = {
+		var make_color_default = {
 			hue: null,
 			saturation: null,
 			value: null,
@@ -168,12 +168,12 @@
 			format: 'hex',
 		};
 
-		var Scheme_options = {
+		var make_scheme_default = {
 			scheme_type: 'analogous',
 			format: 'hex'
 		};
 
-		var Contrast_options = {
+		var make_contrast_default = {
 			golden: false,
 			format: 'hex'
 		}
@@ -356,7 +356,7 @@
 		//accepts HSV object and options object, returns list or single object depending on options
 		Please.make_scheme = function( HSV, options ){
 			//clone base please options
-			var scheme_options = copy_object( Scheme_options );
+			var scheme_options = copy_object( make_scheme_default );
 
 			if( options != null ){
 			//override base Please options
@@ -380,7 +380,7 @@
 				case 'monochromatic':
 				case 'mono':
 					for ( var i = 1; i <= 2; i++ ) {
-						var adjusted = clone(HSV);
+						var adjusted = clone( HSV );
 
 						var adjusted_s = adjusted.s + ( .1 * i );
 						adjusted_s = clamp( adjusted_s, 0, 1 );
@@ -494,12 +494,8 @@
 		Please.make_color = function( options ){
 			var color = [];
 			//clone base please options
-			var color_options = {};
-			for( var key in Color_options ){
-				if( Color_options.hasOwnProperty( key )){
-					color_options[key] = Color_options[key];
-				}
-			}
+			var color_options = copy_object( make_color_default );
+
 			if( options != null ){
 			//override base Please options
 				for( var key in options ){
@@ -575,12 +571,8 @@
 		Please.make_contrast = function( HSV, options ){
 
 			//clone base please options
-			var contrast_options = {};
-			for( var key in Contrast_options ){
-				if( Contrast_options.hasOwnProperty( key )){
-					contrast_options[key] = Contrast_options[key];
-				}
-			}
+			var contrast_options = copy_object( make_contrast_default );
+
 			if( options != null ){
 			//override base Please options
 				for( var key in options ){
