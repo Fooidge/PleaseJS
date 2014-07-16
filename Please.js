@@ -1,3 +1,4 @@
+/*Please JS v0.2.0, Jordan Checkman 2014, Checkman.io, MIT Liscense, Have fun.*/
 (function(window){
 	'use strict';
 	function define_Please(){
