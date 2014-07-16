@@ -153,7 +153,9 @@
 			yellowgreen: "9ACD32"
 		};
 
-		var Color_options = {
+		var PHI = 0.618033988749895;
+
+		var make_color_default = {
 			hue: null,
 			saturation: null,
 			value: null,
@@ -166,10 +168,15 @@
 			format: 'hex',
 		};
 
-		var Scheme_options = {
+		var make_scheme_default = {
 			scheme_type: 'analogous',
 			format: 'hex'
 		};
+
+		var make_contrast_default = {
+			golden: false,
+			format: 'hex'
+		}
 
 		function random_int( min, max ){
 			return Math.floor( Math.random() * ( max - min + 1 )) + min;
@@ -212,6 +219,15 @@
 					break;
 			}
 			return array;
+		}
+
+		function contrast_quotient( HSV ){
+			var RGB = Please.HSV_to_RGB( HSV );
+			var YIQ = ( ( RGB.r * 299 ) +
+						( RGB.g * 587 ) +
+						( RGB.b * 114 )
+					) / 1000;
+			return ( YIQ >= 128 ) ? 'dark' : 'light';
 		}
 
 		function copy_object( object ){
@@ -336,11 +352,11 @@
 		Please.HEX_to_HSV = function( hex ){
 			return Please.RGB_to_HSV( Please.HEX_to_RGB( hex ));
 		}
-		
+
 		//accepts HSV object and options object, returns list or single object depending on options
 		Please.make_scheme = function( HSV, options ){
 			//clone base please options
-			var scheme_options = copy_object( Scheme_options );
+			var scheme_options = copy_object( make_scheme_default );
 
 			if( options != null ){
 			//override base Please options
@@ -364,7 +380,7 @@
 				case 'monochromatic':
 				case 'mono':
 					for ( var i = 1; i <= 2; i++ ) {
-						var adjusted = clone(HSV);
+						var adjusted = clone( HSV );
 
 						var adjusted_s = adjusted.s + ( .1 * i );
 						adjusted_s = clamp( adjusted_s, 0, 1 );
@@ -394,6 +410,7 @@
 				break;
 				case 'complementary':
 				case 'complement':
+				case 'comp':
 					var adjusted = clone( HSV );
 					adjusted.h += 180;
 					if( adjusted.h > 360 ){
@@ -477,12 +494,8 @@
 		Please.make_color = function( options ){
 			var color = [];
 			//clone base please options
-			var color_options = {};
-			for( var key in Color_options ){
-				if( Color_options.hasOwnProperty( key )){
-					color_options[key] = Color_options[key];
-				}
-			}
+			var color_options = copy_object( make_color_default );
+
 			if( options != null ){
 			//override base Please options
 				for( var key in options ){
@@ -512,7 +525,7 @@
 					}
 					//make hue goldennnnnnnn
 					else if( color_options.golden == true ){
-						hue =  ( random_hue + ( random_hue / 0.618033988749895 )) % 360;
+						hue = ( random_hue + ( random_hue / PHI )) % 360;
 					}
 					else if( color_options.hue == null || color_options.full_random == true ){
 						hue = random_hue;
@@ -550,10 +563,58 @@
 				}
 			}
 			//output options based on format
-			convert_to_format( color_options.format.toLowerCase(),color );
+			convert_to_format( color_options.format.toLowerCase(), color );
 			if ( color.length === 1 ){return color[0];}
 			else{return color;}
 		}
+		//accepts HSV object returns contrasting color
+		Please.make_contrast = function( HSV, options ){
+
+			//clone base please options
+			var contrast_options = copy_object( make_contrast_default );
+
+			if( options != null ){
+			//override base Please options
+				for( var key in options ){
+					if( options.hasOwnProperty( key )){
+						contrast_options[key] = options[key];
+					}
+				}
+			}
+
+			var contrast;
+			var value_range = contrast_quotient( HSV );
+			var adjusted_hue;
+
+			if( contrast_options.golden == true ){
+				adjusted_hue = ( HSV.h * ( 1 + PHI ) ) % 360;
+			}
+			else{
+				var contrast_base =
+				Please.make_scheme( HSV,
+				{
+					scheme_type: 'complementary',
+					format: 'hsv'
+				})[1];
+				adjusted_hue = clamp( ( contrast_base.h - 30 ), 0, 360 );
+			}
+			var adjusted_value;
+			if ( value_range === 'dark' ){
+				adjusted_value = clamp( ( HSV.v - .25 ), 0, 1 );
+			}
+			else if ( value_range === 'light' ){
+				adjusted_value = clamp( ( HSV.v + .25 ), 0, 1 );
+			}
+			contrast = [{
+				h: adjusted_hue,
+				s: HSV.s,
+				v: adjusted_value
+			}]
+
+			convert_to_format( contrast_options.format.toLowerCase(), contrast );
+			return contrast[0];
+		}
+
 		return Please;
 	}
 	//globalize it 3/60
