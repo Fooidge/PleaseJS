@@ -394,7 +394,7 @@
 
 						scheme.push(adjusted);
 					}
-					for ( var i = 1; i < 2; i++ ) {
+					for ( var i = 1; i <= 2; i++ ) {
 						var adjusted = clone( HSV );
 
 						var adjusted_s = adjusted.s - ( .1 * i );
@@ -413,10 +413,7 @@
 				case 'complement':
 				case 'comp':
 					var adjusted = clone( HSV );
-					adjusted.h += 180;
-					if( adjusted.h > 360 ){
-						adjusted.h -= 360;
-					}
+					adjusted.h = ( adjusted.h + 180 ) % 360;
 					scheme.push( adjusted );
 				break;
 				//30 degree seperation
@@ -424,16 +421,10 @@
 				case 'split-complement':
 				case 'split':
 					var adjusted = clone( HSV );
-					adjusted.h += 165;
-					if( adjusted.h > 360 ){
-						adjusted.h -= 360;
-					}
+					adjusted.h = ( adjusted.h + 165 ) % 360;
 					scheme.push( adjusted );
 					var adjusted = clone( HSV );
-					adjusted.h -= 165;
-					if( adjusted.h < 0 ){
-						adjusted.h += 360;
-					}
+					adjusted.h = Math.abs( ( adjusted.h - 165 ) % 360 );
 					scheme.push( adjusted );
 				break;
 				case 'double-complementary':
@@ -441,34 +432,21 @@
 				case 'double':
 					//first basic complement
 					var adjusted = clone( HSV );
-					adjusted.h += 180;
-					if( adjusted.h > 360 ){
-						adjusted.h -= 360;
-					}
+					adjusted.h = ( adjusted.h + 180 ) % 360;
 					scheme.push( adjusted );
 					//then offset
-					var adjusted = clone( HSV );
-					adjusted.h += 30;
-					if( adjusted.h > 360 ){
-						adjusted.h -= 360;
-					}
+					adjusted.h = ( adjusted.h + 30 ) % 360;
 					var secondary = clone( adjusted );
 					scheme.push( adjusted );
 					//complement offset
-					secondary.h += 180;
-					if( secondary.h > 360 ){
-						secondary.h -= 360;
-					}
+					adjusted.h = ( adjusted.h + 180 ) % 360;
 					scheme.push( secondary );
 				break;
 				case 'analogous':
 				case 'ana':
 					for ( var i = 1; i <= 5; i++ ) {
 						var adjusted = clone( HSV );
-						adjusted.h += ( 20 * i );
-						if ( adjusted.h > 360 ) {
-							adjusted.h -= 360;
-						}
+						adjusted.h = ( adjusted.h + ( 20 * i ) ) % 360;
 						scheme.push( adjusted );
 					}
 				break;
@@ -477,10 +455,7 @@
 				case 'tri':
 					for ( var i = 1; i < 3; i++ ) {
 						var adjusted = clone( HSV );
-						adjusted.h += ( 120 * i );
-						if( adjusted.h > 360 ){
-							adjusted.h -= 360;
-						}
+						adjusted.h = ( adjusted.h + ( 120 * i ) ) % 360;
 						scheme.push( adjusted );
 					};
 				break;
