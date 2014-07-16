@@ -466,6 +466,24 @@
 			convert_to_format( scheme_options.format.toLowerCase(), scheme );
 			return scheme;
 		}
+
+		function parseBaseColor( base_color ){
+			if( base_color.toLowerCase() in color_data ){
+				return color_data[base_color.toLowerCase()];
+			}
+			else if( !isNaN( base_color ) ){
+				return base_color.toString(16).toUpperCase();
+			}
+			else{
+				var hexrgb = Please.HEX_to_RGB( base_color )
+				if( hexrgb ){
+					return (hexrgb.r.toString(16) + hexrgb.g.toString(16) + hexrgb.b.toString(16)).toUpperCase();
+				}
+				else{
+					return null;
+				}
+			}
+		}
 		//accepts options object returns list or single color
 		Please.make_color = function( options ){
 			var color = [];
@@ -483,7 +501,7 @@
 			//first, check for a base color
 			var base_color;
 			if ( color_options.base_color.length > 0 ) {
-				base_color = color_data[color_options.base_color.toLowerCase()];
+				base_color = parseBaseColor(color_options.base_color);
 				base_color = Please.HEX_to_HSV( base_color );
 			}
 			for ( var i = 0; i < color_options.colors_returned; i++ ) {
