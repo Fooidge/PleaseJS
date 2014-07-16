@@ -1,6 +1,7 @@
 #PleaseJS
-www.checkman.io/please
 ========
+
+www.checkman.io/please
 
 JavaScript Library for creating random pleasing colors and color schemes.
 
