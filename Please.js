@@ -174,22 +174,17 @@
 			format: 'hex'
 		};
 
-<<<<<<< HEAD
+		var make_contrast_default = {
+			golden: false,
+			format: 'hex'
+		}
+
 		function random_int( min, max, randomiser ){
 			var random = Math.random;
 			if (randomiser instanceof RC4Random) {
 				random = randomiser.random;
 			}
 			return Math.floor( random() * ( max - min + 1 )) + min;
-=======
-		var make_contrast_default = {
-			golden: false,
-			format: 'hex'
-		}
-
-		function random_int( min, max ){
-			return Math.floor( Math.random() * ( max - min + 1 )) + min;
->>>>>>> upstream/master
 		}
 
 		function random_float( min, max, randomiser ){
@@ -401,11 +396,7 @@
 		Please.HEX_to_HSV = function( hex ){
 			return Please.RGB_to_HSV( Please.HEX_to_RGB( hex ));
 		}
-<<<<<<< HEAD
-					
-=======
 
->>>>>>> upstream/master
 		//accepts HSV object and options object, returns list or single object depending on options
 		Please.make_scheme = function( HSV, options ){
 			//clone base please options
