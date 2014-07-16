@@ -153,6 +153,8 @@
 			yellowgreen: "9ACD32"
 		};
 
+		var PHI = 0.618033988749895;
+
 		var Color_options = {
 			hue: null,
 			saturation: null,
@@ -172,6 +174,7 @@
 		};
 
 		var Contrast_options = {
+			golden: false,
 			format: 'hex'
 		}
 
@@ -224,7 +227,7 @@
 						( RGB.g * 587 ) +
 						( RGB.b * 114 )
 					) / 1000;
-			return (YIQ >= 128) ? 'dark' : 'light';
+			return ( YIQ >= 128 ) ? 'dark' : 'light';
 		}
 
 		function copy_object( object ){
@@ -526,7 +529,7 @@
 					}
 					//make hue goldennnnnnnn
 					else if( color_options.golden == true ){
-						hue = ( random_hue + ( random_hue / 0.618033988749895 )) % 360;
+						hue = ( random_hue + ( random_hue / PHI )) % 360;
 					}
 					else if( color_options.hue == null || color_options.full_random == true ){
 						hue = random_hue;
@@ -568,7 +571,7 @@
 			if ( color.length === 1 ){return color[0];}
 			else{return color;}
 		}
-
+		//accepts HSV object returns contrasting color
 		Please.make_contrast = function( HSV, options ){
 
 			//clone base please options
@@ -589,12 +592,20 @@
 
 			var contrast;
 			var value_range = contrast_quotient( HSV );
-			var contrast_base = Please.make_scheme(
-			HSV,
-			{
-				scheme_type: 'complementary',
-				format: 'hsv'
-			})[1];
+			var adjusted_hue;
+
+			if( contrast_options.golden == true ){
+				adjusted_hue = ( HSV.h * ( 1 + PHI ) ) % 360;
+			}
+			else{
+				var contrast_base =
+				Please.make_scheme( HSV,
+				{
+					scheme_type: 'complementary',
+					format: 'hsv'
+				})[1];
+				adjusted_hue = clamp( ( contrast_base.h - 30 ), 0, 360 );
+			}
 			var adjusted_value;
 			if ( value_range === 'dark' ){
 				adjusted_value = clamp( ( HSV.v - .25 ), 0, 1 );
@@ -603,8 +614,8 @@
 				adjusted_value = clamp( ( HSV.v + .25 ), 0, 1 );
 			}
 			contrast = [{
-				h: clamp( ( contrast_base.h - 30 ), 0, 360 ),
-				s: contrast_base.s,
+				h: adjusted_hue,
+				s: HSV.s,
 				v: adjusted_value
 			}]
 
