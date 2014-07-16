@@ -1,6 +1,7 @@
 /*Please JS v0.2.0, Jordan Checkman 2014, Checkman.io, MIT Liscense, Have fun.*/
 (function(window){
 	'use strict';
+
 	function define_Please(){
 		var Please = {};
 		var color_data = {
@@ -241,7 +242,7 @@
 			return copy;
 		}
 
-		Please.NAME_to_HEX = function( name ){
+		Please.nameToHex = Please.NAME_to_HEX = function( name ){
 			if( name in color_data ){
 				return color_data[name];
 			}
@@ -250,16 +251,16 @@
 			}
 		}
 
-		Please.NAME_to_HSV = function( name ){
+		Please.nameToHsv = Please.NAME_to_HSV = function( name ){
 			return Please.HEX_to_RGB( Please.NAME_to_HEX( name ));
 		}
 
-		Please.NAME_to_HSV = function( name ){
+		Please.nameToHsv = Please.NAME_to_HSV = function( name ){
 			return Please.HEX_to_HSV( Please.NAME_to_HEX( name ));
 		}
 
 		//accepts hex string, produces RGB object
-		Please.HEX_to_RGB = function( hex ){
+		Please.hexToRgb = Please.HEX_to_RGB = function( hex ){
 			var regex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 			hex = hex.replace( regex, function( m, r, g, b ) {
 				return r + r + g + g + b + b;
@@ -273,14 +274,14 @@
 		}
 
 		//accepts RGB object, produces hex string
-		Please.RGB_to_HEX = function( RGB ){
+		Please.rgbToHex = Please.RGB_to_HEX = function( RGB ){
 			return "#" +
 			(( 1 << 24 ) + ( RGB.r << 16 ) + ( RGB.g << 8 ) + RGB.b )
 			.toString( 16 ).slice( 1 );
 		}
 
 		//accepts HSV object, returns RGB object
-		Please.HSV_to_RGB = function( HSV ){
+		Please.hsvToRgb = Please.HSV_to_RGB = function( HSV ){
 			var r, g, b;
 			var h = ( HSV.h / 360 );
 			var s = HSV.s;
@@ -312,7 +313,7 @@
 		}
 
 		//accepts RGB object, returns HSV object
-		Please.RGB_to_HSV = function( RGB ){
+		Please.rgbToHsv = Please.RGB_to_HSV = function( RGB ){
 			var r, g, b;
 			var computed_H = 0;
 			var computed_S = 0;
@@ -345,17 +346,17 @@
 		}
 
 		//accepts HSV object, returns hex string
-		Please.HSV_to_HEX = function( HSV ){
+		Please.hsvToHex = Please.HSV_to_HEX = function( HSV ){
 			return Please.RGB_to_HEX( Please.HSV_to_RGB( HSV ));
 		}
 
 		//accepts hex string, returns HSV object
-		Please.HEX_to_HSV = function( hex ){
+		Please.hexToHsv = Please.HEX_to_HSV = function( hex ){
 			return Please.RGB_to_HSV( Please.HEX_to_RGB( hex ));
 		}
 
 		//accepts HSV object and options object, returns list or single object depending on options
-		Please.make_scheme = function( HSV, options ){
+		Please.makeScheme = Please.make_scheme = function( HSV, options ){
 			//clone base please options
 			var scheme_options = copy_object( make_scheme_default );
 
@@ -466,8 +467,9 @@
 			convert_to_format( scheme_options.format.toLowerCase(), scheme );
 			return scheme;
 		}
+
 		//accepts options object returns list or single color
-		Please.make_color = function( options ){
+		Please.makeColor = Please.make_color = function( options ){
 			var color = [];
 			//clone base please options
 			var color_options = copy_object( make_color_default );
