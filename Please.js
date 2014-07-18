@@ -164,6 +164,7 @@
 			greyscale: false,
 			grayscale: false, //whatever I support them both, murrica
 			golden: true,
+			from_hash: null,
 			full_random: false,
 			colors_returned: 1,
 			format: 'hex',
@@ -189,6 +190,68 @@
 
 		function clamp( num, min, max ){
 			return Math.max( min, Math.min( num, max ));
+		}
+
+		/**
+		 * Hash function based on djb2.
+		 * JavaScripts lacks a proper hash function.
+		 * This one is fast and serves our needs.
+		 * Aint no SHA-256 but it works.
+		 * Modified it to XOR with a reverse answer.
+		 * 
+		 * @author ElNinja
+		 * @param {string} str String to be hashed
+		 * @param {number} hashSize Number of chars desired
+		 * @param {number} blockSize Block size between iterations
+		 * @param {number} iterations
+		 * @return {number} 32-bit integer hash
+		 */
+		function superhero_hash(str, hashSize, blockSize, iterations) {
+			var djb2 = function(chars) {
+			  if (typeof chars === 'string') {
+			    chars = chars.split('').map(function(str){
+			      return str.charCodeAt(0);
+			    });
+			  }
+			  if (!Array.isArray(chars)) {
+			    throw new Error('input must be a string or an array');
+			  }
+			  var djb2_hash = chars.reduce(function(prev, curr){
+			    return ((prev << 5) + prev) + curr;
+			  }, 5381);
+			  // switch it up a bit..
+			  return Math.abs(djb2_hash ^ djb2_hash.toString().split('').reverse().join(''));
+			}
+
+			var hash = '';
+			for (var i = iterations - 1; i >= 0; i--) {
+				hash = hash + djb2(str).toString().slice(-blockSize);
+				str = hash;
+			};
+		  	return hash.slice(-hashSize);
+		}
+
+		// maps a string to a desired value
+		function createFromHash( action, str ) {
+			var x = 0
+			switch( action ){
+				case 'hue':
+					// number between 0 and 360
+					x = Math.round(3.6 * superhero_hash(str, 2, 2, 3));
+					break;
+				case 'saturation':
+					// number between 0.0 and 1.0
+					x = superhero_hash(str, 3, 3, 4) / 1000;
+					break;
+				case 'value':
+					x = superhero_hash(str, 3, 1, 5) / 1000;
+					break;
+				default:
+					console.error('Incorrect action selected as parameter at createFromHash function.');
+					break;
+			}
+			console.log(action + ': ' + x);
+			return x;
 		}
 
 		function convert_to_format( format_string, array ){
@@ -487,7 +550,8 @@
 				base_color = Please.HEX_to_HSV( base_color );
 			}
 			for ( var i = 0; i < color_options.colors_returned; i++ ) {
-				var random_hue = random_int( 0, 360 );
+				var random_hue = (color_options.from_hash === null) ?
+					random_int( 0, 360 ) : createFromHash( 'hue', color_options.from_hash );
 				var hue,saturation,value;
 				if( base_color != null ){
 					hue = random_int( ( base_color.h - 5 ), ( base_color.h + 5 ));
@@ -505,8 +569,7 @@
 					}
 					else if( color_options.hue == null || color_options.full_random == true ){
 						hue = random_hue;
-					}
-					else{
+					} else {
 						hue = clamp( color_options.hue, 0, 360 );
 					}
 					//set saturation
@@ -515,18 +578,19 @@
 					}
 					else if ( color_options.full_random == true ){
 						saturation = random_float( 0, 1 );
-					}
-					else if ( color_options.saturation == null ){
+					} else if ( color_options.from_hash !== null){
+						saturation = createFromHash( 'saturation', color_options.from_hash);
+					} else if ( color_options.saturation == null ){
 						saturation = .4;
-					}
-					else{
+					} else {
 						saturation = clamp( color_options.saturation, 0, 1 );
 					}
 					//set value
 					if( color_options.full_random == true ){
 						value = random_float( 0, 1 );
-					}
-					else if( color_options.greyscale == true || color_options.grayscale == true ){
+					} else if ( color_options.from_hash !== null){
+						value = createFromHash( 'value', color_options.from_hash);
+					} else if( color_options.greyscale == true || color_options.grayscale == true ){
 						value = random_float(.15,.75)
 					}
 					else if( color_options.value == null ){

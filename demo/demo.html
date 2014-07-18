@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/demo.min.css">
+  <link rel="stylesheet" type="text/css" href="css/prism.min.css">
+  <title>Please JS</title>
+</head>
+<body>
+<div id="menu">
+  <ul>
+    <li>Basic Usage</li>
+    <li>Multiple Colors</li>
+    <li>Base Color</li>
+    <li>Grayscale</li>
+    <li>Full Random</li>
+    <li>Value Tuning</li>
+    <li>Color Schemes</li>
+    <li class="download">DOWNLOAD</li>
+  </ul>
+</div>
+<div class="container">
+  <div class="hero">
+    <div id="title">
+      <span>P</span>
+      <span>l</span>
+      <span>e</span>
+      <span>a</span>
+      <span>s</span>
+      <span>e</span>
+      <span>.</span>
+      <span>j</span>
+      <span>s</span>
+    </div>
+    <span class="sub-title">The Polite Javascript Color Library</span>
+  </div>
+  <article>
+    <h1>Make a random Pleasing color.</h1>
+    <pre>
+      <code class="language-javascript">
+Please.make_color(); //ezpz</code>
+    </pre>
+    <button id="make-color">Try It</button>
+    <div id="make-color-demo" class="demo"></div>
+  </article>
+  <article>
+    <h1>Make a few.</h1>
+    <pre>
+      <code class="language-javascript">
+Please.make_color({
+  colors_returned: 4 //set number of colors returned
+});</code>
+    </pre>
+    <button id="make-color-multiple">Try It</button>
+    <div id="multiple-demo" class="clearfix">
+      <div class="demo multiple"></div>
+      <div class="demo multiple"></div>
+      <div class="demo multiple"></div>
+      <div class="demo multiple"></div>
+    </div>
+  </article>
+  <article>
+    <h1>Make a random color based on another color.</h1>
+    <pre>
+      <code class="language-javascript">
+Please.make_color({
+  base_color: 'orangered' //set your base color
+});</code>
+    </pre>
+    <select id="base-color-picker">
+      <option value="orangered">Orange Red</option>
+      <option value="gold">Gold</option>
+      <option value="lawngreen">Lawn Green</option>
+      <option value="rebeccapurple">Rebecca Purple</option>
+      <option value="cyan">Cyan</option>
+    </select>
+    <button id="base-color">Try It</button>
+    <div id="base-color-demo" class="demo"></div>
+  </article>
+  <article>
+    <h1>Make a random gray.</h1>
+    <pre>
+      <code class="language-javascript">
+Please.make_color({
+  greyscale: true, //for the brits
+  grayscale: true  //for the yanks
+});</code>
+    </pre>
+    <button id="grey-color">Try It</button>
+    <div id="grey-color-demo" class="demo"></div>
+  </article>
+  <article>
+    <h1>Or go nuts.</h1>
+    <pre>
+      <code class="language-javascript">
+Please.make_color({
+  golden: false, //disable default
+  full_random: true //go full random
+});</code>
+    </pre>
+    <button id="random-color">Try It</button>
+    <div id="random-color-demo" class="demo"></div>
+  </article>
+  <article>
+    <h1>Fiddle around.</h1>
+    <pre>
+      <code class="language-javascript">
+Please.make_color({
+  golden: false, //disable default
+  hue: 12, //set your hue manually
+  saturation: .7, //set your saturation manually
+  value: .8 //set your value manually
+});</code>
+    </pre>
+    <input id="fiddle-hue" type="text" placeholder="Hue (0-360)">
+    <input id="fiddle-sat" type="text" placeholder="Saturation (0.0-1.0)">
+    <input id="fiddle-val" type="text" placeholder="Value (0.0-1.0)">
+    <div style="margin: .5em 0;">
+      <button id="fiddle-color">Try It</button>
+    </div>
+    <div id="fiddle-color-demo" class="demo"></div>
+  </article>
+  <article>
+    <h1>Make a color scheme.</h1>
+    <pre>
+      <code class="language-javascript">
+Please.make_scheme({
+  scheme_type: 'analogous', //set scheme type
+  format: 'rgb-string' //give it to us in rgb
+});</code>
+    </pre>
+    <select id="scheme-color-picker">
+      <option value="salmon">Salmon</option>
+      <option value="skyblue">Sky Blue</option>
+      <option value="palegreen">Pale Green</option>
+      <option value="plum">Plum</option>
+    </select>
+    <button id="scheme-color">Try It</button>
+    <div id="scheme-demo" class="clearfix">
+      <div class="demo multiple"></div>
+      <div class="demo multiple"></div>
+      <div class="demo multiple"></div>
+      <div class="demo multiple"></div>
+    </div>
+  </article>
+  <article style="border: 0">
+    <h1>Read the docs.</h1>
+    <a class="button" href="Please_docs.txt">Read</a>
+    <h1>Download the thing.</h1>
+    <a class="button" href="js/Please-compressed.js">Download</a>
+    <h1>Hit the Git.</h1>
+    <a class="button" href="https://github.com/Fooidge/PleaseJS">FORK</a>
+  </article>
+</div>
+</body>
+<script type="text/javascript" src="js/prism.min.js"></script>
+<script type="text/javascript" src="../Please.js"></script>
+<script type="text/javascript" src="js/demo.min.js"></script>
+</html>

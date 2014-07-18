@@ -1,13 +1,41 @@
-Please.js
-Jordan Checkman
-Checkman.io
+PleaseJS
+========
+___
+
+JavaScript Library for creating random pleasing colors and color schemes.
+
+> [www.checkman.io/please](www.checkman.io/please)
 
 Please.js is a polite companion that wants to help you make your projects beautiful.  It uses HSV color space to create random pleasing colors as well as color schemes based on a given color.
 
 It has two core functions and a bunch of little helpers for you to use.
 
------CORE-----
-Please.make_color(options)
+___
+
+Usage
+----
+
+```javascript
+Please.make_color();
+
+Please.make_scheme({
+	h: 145,
+	s: .7,
+	v: .6
+}, {
+	scheme_type: 'triadic',
+	format: 'rgb-string'
+});
+```
+
+___
+
+
+CORE
+----
+
+`Please.make_color(options)`
+
 
 The make_color function by default will generate and return a random hex string using the golden ratio to ensure that the color will look nice on your screen.
 
@@ -15,29 +43,38 @@ You can also pass an options object to make_color and have it do a whole bunch o
 
 make_color options:
 
-hue: (0-360)
+`hue: (0-360)`
+
 By setting the hue, you determine the color.
 
-saturation: (0.0-1.0)
+`saturation: (0.0-1.0)`
+
 By setting the saturation, you determine the distance from gray.
 
-value: (0.0-1.0)
+`value: (0.0-1.0)`
+
 By setting the value, you determine the balance between black and white.
 
-base_color: ("the name of an HTML color")
+`base_color: ("the name of an HTML color")`
+
 Setting a base_color (e.g. "pink") will create a random color within the HSV range of the chosen color. Please will recognize any of the 146 standard HTML colors, it has a very good memory.
 
-greyscale | grayscale: (true/false)
+`greyscale | grayscale: (true/false)`
+
 Setting either greyscale or grayscale (but we all know which one is correct) to true will cause all of the colors you generate to be within the grey or gray range. This is effectively the same as setting your saturation to 0.
 
-golden: (true/false)
+`golden: (true/false)`
+
 Setting golden to true randomizes your hue (overrides hue setting) and makes you a spectacular color based on the golden ratio. It's so good, it's the default. Make sure to turn it off if you want to have more control over your generated colors.
 
-full_random: (true/false)
+`full_random: (true/false)`
+
 Setting full_random to true will make Please lose its mind. It will completely randomize the hue, saturation, and value of the colors it makes.
 
-colors_returned: (1-infinity)
-Setting colors_returned to higher than 1 will return an array full of the colors Please has made for you. If you set it to 1, you'll just get the one color! It makes a sort of sense if you think about it.
+`colors_returned: (1-infinity)`
+
+Setting colors_returned to higher than 1 will return an array full of the colors Please has made for you.
+If you set it to 1, you'll just get the one color! It makes a sort of sense if you think about it.
 
 format: ("format string")
 Setting format string, will change the format of what make_color will return for you. The options are as follows (example is the color black):
@@ -47,6 +84,7 @@ Setting format string, will change the format of what make_color will return for
 "hsv" = {h: 0, s: 0, v: 0}
 
 Here are the defaults for each option:
+```javascript
 {
 	hue: null,
 	saturation: null,
@@ -59,22 +97,26 @@ Here are the defaults for each option:
 	colors_returned: 1,
 	format: 'hex',
 }
+```
 
 Here is an example of a fully random color call:
+```javascript
 Please.make_color({
 	golden: false,
 	full_random:true
 });
+```
 
 Here is an example that will produce 100 reds as RGB strings:
+```javascript
 Please.make_color({
 	golden: false,
 	base_color: 'red',
 	colors_returned: 100,
 	format: 'rgb-string'
 });
-
---------------
+```
+___
 
 The second core function allows Please to make a color scheme for you.
 
@@ -173,3 +215,92 @@ NAME_to_HSV()
 These functions take a string and return a HEX string or an RGB/HSV object.
 
 I hope you enjoy using Please.  Have fun, and remember to say the magic word.
+
+
+
+License
+----
+
+MIT
+
+
+
+Dillinger
+=========
+
+Dillinger is a cloud-enabled HTML5 Markdown editor.
+
+  - Type some Markdown text in the left window
+  - See the HTML in the right
+  - Magic
+
+Markdown is a lightweight markup language based on the formatting conventions that people naturally use in email.  As [John Gruber] writes on the [Markdown site] [1]:
+
+> The overriding design goal for Markdown's
+> formatting syntax is to make it as readable 
+> as possible. The idea is that a
+> Markdown-formatted document should be
+> publishable as-is, as plain text, without
+> looking like it's been marked up with tags
+> or formatting instructions.
+
+This text you see here is *actually* written in Markdown! To get a feel for Markdown's syntax, type some text into the left window and watch the results in the right.  
+
+Version
+----
+
+2.0
+
+Tech
+-----------
+
+Dillinger uses a number of open source projects to work properly:
+
+* [Ace Editor] - awesome web-based text editor
+* [Marked] - a super fast port of Markdown to JavaScript
+* [Twitter Bootstrap] - great UI boilerplate for modern web apps
+* [node.js] - evented I/O for the backend
+* [Express] - fast node.js network app framework [@tjholowaychuk]
+* [keymaster.js] - awesome keyboard handler lib by [@thomasfuchs]
+* [jQuery] - duh 
+
+Installation
+--------------
+
+```sh
+git clone [git-repo-url] dillinger
+cd dillinger
+npm i -d
+mkdir -p public/files/{md,html,pdf}
+```
+
+##### Configure Plugins. Instructions in following README.md files
+
+* plugins/dropbox/README.md
+* plugins/github/README.md
+* plugins/googledrive/README.md
+
+```sh
+node app
+```
+
+
+License
+----
+
+MIT
+
+
+**Free Software, Hell Yeah!**
+
+[john gruber]:http://daringfireball.net/
+[@thomasfuchs]:http://twitter.com/thomasfuchs
+[1]:http://daringfireball.net/projects/markdown/
+[marked]:https://github.com/chjj/marked
+[Ace Editor]:http://ace.ajax.org
+[node.js]:http://nodejs.org
+[Twitter Bootstrap]:http://twitter.github.com/bootstrap/
+[keymaster.js]:https://github.com/madrobby/keymaster
+[jQuery]:http://jquery.com
+[@tjholowaychuk]:http://twitter.com/tjholowaychuk
+[express]:http://expressjs.com
