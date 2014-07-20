@@ -16,12 +16,18 @@
     "random"
   ],
   "author": "Jordan Checkman",
+  "contributors": [
+    "Josue Ibarra <josue@elninja.com> (http://elninja.com/)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Fooidge/PleaseJS/issues"
   },
   "homepage": "https://github.com/Fooidge/PleaseJS",
   "devDependencies": {
-    "gulp": "~3.8.6"
+    "gulp": "~3.8.6",
+    "gulp-uglify": "~0.3.1",
+    "gulp-jshint": "~1.7.1",
+    "gulp-watch": "~0.6.8"
   }
 }
