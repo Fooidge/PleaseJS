@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/Fooidge/PleaseJS/issues"
   },
-  "homepage": "https://github.com/Fooidge/PleaseJS"
+  "homepage": "https://github.com/Fooidge/PleaseJS",
+  "devDependencies": {
+    "gulp": "~3.8.6"
+  }
 }
