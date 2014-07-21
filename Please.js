@@ -258,7 +258,7 @@
 			}
 		}
 
-		Please.NAME_to_HSV = function( name ){
+		Please.NAME_to_RGB = function( name ){
 			return Please.HEX_to_RGB( Please.NAME_to_HEX( name ));
 		}
 
