@@ -1,13 +1,13 @@
 /*Please JS v0.2.0, Jordan Checkman 2014, Checkman.io, MIT Liscense, Have fun.*/
 (function( globalName, root, factory ){
 	if ( typeof define === 'function' && define.amd ) {
-		define([],factory);
+		define( [], factory );
 	}else if ( typeof exports === 'object' ) {
 		module.exports = factory();
 	}else{
 		root[globalName] = factory();
 	}
-}('Please',this,function(){
+}('Please', this, function(){
 	'use strict';
 	function define_Please(){
 		var Please = {};
