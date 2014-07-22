@@ -1,4 +1,4 @@
-/*Please JS v0.2.0, Jordan Checkman 2014, Checkman.io, MIT Liscense, Have fun.*/
+/*Please JS v0.2.0, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
 (function( globalName, root, factory ){
 	if ( typeof define === 'function' && define.amd ) {
 		define( [], factory );
