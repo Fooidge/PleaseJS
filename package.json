@@ -4,7 +4,8 @@
   "description": "JS library to generate random pleasing colors/color schemes",
   "main": "Please.js",
   "scripts": {
-    "test": "Please.make_color();"
+    "test": "Please.make_color();",
+    "build": "uglifyjs Please.js -o Please.min.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/Fooidge/PleaseJS/issues"
   },
-  "homepage": "https://github.com/Fooidge/PleaseJS"
+  "homepage": "https://github.com/Fooidge/PleaseJS",
+  "devDependencies": {
+    "uglify-js": "~2.4.15"
+  }
 }
