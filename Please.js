@@ -173,7 +173,6 @@
 			grayscale: false, //whatever I support them both, murrica
 			golden: true,
 			full_random: false,
-			colors_returned: 1,
 			format: 'hex',
 		};
 
@@ -494,7 +493,14 @@
 				base_color = color_data[color_options.base_color.toLowerCase()];
 				base_color = Please.HEX_to_HSV( base_color );
 			}
-			for ( var i = 0; i < color_options.colors_returned; i++ ) {
+
+			var colorAmount =  1;
+
+			if(typeof color_options.colors_returned === 'number') {
+				colorAmount = color_options.colors_returned;
+			}
+
+			for ( var i = 0; i < colorAmount; i++ ) {
 				var random_hue = random_int( 0, 360 );
 				var hue,saturation,value;
 				if( base_color != null ){
@@ -548,8 +554,12 @@
 			}
 			//output options based on format
 			convert_to_format( color_options.format.toLowerCase(), color );
-			if ( color.length === 1 ){return color[0];}
-			else{return color;}
+
+			if(typeof color_options.colors_returned === 'number') {
+				return color;
+			}
+
+			return color[0];
 		}
 		//accepts HSV object returns contrasting color
 		Please.make_contrast = function( HSV, options ){
@@ -601,7 +611,7 @@
 
 		return Please;
 	}
-	
+
 	return define_Please();
 
 }));
