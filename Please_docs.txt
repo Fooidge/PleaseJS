@@ -113,7 +113,7 @@ Here is an example of a complementary scheme in hex:
 Please.make_scheme(
 {
 	h: 130,
-	s: .7.
+	s: .7,
 	v: .75
 },
 {
@@ -125,7 +125,7 @@ Here is an example that will produce a triadic scheme in rgb-strings:
 Please.make_scheme(
 {
 	h: 130,
-	s: .7.
+	s: .7,
 	v: .75
 },
 {
