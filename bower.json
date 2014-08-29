@@ -6,7 +6,7 @@
     "Fooidge"
   ],
   "description": "JS library to generate random pleasing colors/color schemes",
-  "main": "please.js",
+  "main": "Please.js",
   "keywords": [
     "color",
     "scheme",
