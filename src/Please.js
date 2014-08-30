@@ -1,4 +1,4 @@
-/*Please JS v0.2.0, Jordan Checkman 2014, Checkman.io, MIT Liscense, Have fun.*/
+/*Please JS v0.2.2, Jordan Checkman 2014, Checkman.io, MIT Liscense, Have fun.*/
 (function( globalName, root, factory ){
 	if ( typeof define === 'function' && define.amd ) {
 		define( [], factory );
@@ -474,6 +474,7 @@
 			convert_to_format( scheme_options.format.toLowerCase(), scheme );
 			return scheme;
 		}
+
 		//accepts options object returns list or single color
 		Please.make_color = function( options ){
 			var color = [];
@@ -548,8 +549,8 @@
 			}
 			//output options based on format
 			convert_to_format( color_options.format.toLowerCase(), color );
-			if ( color.length === 1 ){return color[0];}
-			else{return color;}
+
+			return color;
 		}
 		//accepts HSV object returns contrasting color
 		Please.make_contrast = function( HSV, options ){
