@@ -51,6 +51,7 @@ function testWithFile(t, file) {
 	});
 
 	stream.write(file);
+	stream.end();
 }
 
 test('should minify files', function(t) {

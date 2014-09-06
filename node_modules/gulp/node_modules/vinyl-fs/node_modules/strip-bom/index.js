@@ -3,11 +3,11 @@ var isUtf8 = require('is-utf8');
 
 var stripBom = module.exports = function (arg) {
 	if (typeof arg === 'string') {
-		return arg.replace(/^\uFEFF/g, '');
+		return arg.replace(/^\ufeff/g, '');
 	}
 
 	if (Buffer.isBuffer(arg) && isUtf8(arg) &&
-		arg[0] === 0xEF && arg[1] === 0xBB && arg[2] === 0xBF) {
+		arg[0] === 0xef && arg[1] === 0xbb && arg[2] === 0xbf) {
 		return arg.slice(3);
 	}
 

@@ -1,6 +1,6 @@
 var isBuffer = require('../lib/isBuffer');
 var Stream = require('stream');
-var should = require('should');
+require('should');
 require('mocha');
 
 describe('isBuffer()', function() {

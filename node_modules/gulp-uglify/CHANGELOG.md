@@ -1,5 +1,12 @@
 # gulp-uglify changelog
 
+## 0.3.2
+
+- Removed the PluginError factory wrapper
+- Removed test that was failing due to gulp-util issue.
+- Tests should end the streams they are writing to.
+- Update dependencies. Fixes #44. Fixes #42.
+
 ## 0.3.1
 
 - Fixed homepage URL in npm metadata

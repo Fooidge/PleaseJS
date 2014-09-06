@@ -1,6 +1,6 @@
 var isStream = require('../lib/isStream');
 var Stream = require('stream');
-var should = require('should');
+require('should');
 require('mocha');
 
 describe('isStream()', function() {

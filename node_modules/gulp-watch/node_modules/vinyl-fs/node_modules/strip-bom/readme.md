@@ -2,20 +2,16 @@
 
 > Strip UTF-8 [byte order mark](http://en.wikipedia.org/wiki/Byte_order_mark#UTF-8) (BOM) from a string/buffer/stream
 
-
 From Wikipedia:
 
 > The Unicode Standard permits the BOM in UTF-8, but does not require nor recommend its use. Byte order has no meaning in UTF-8.
 
 
-## Install
+## Usage
 
 ```sh
 $ npm install --save strip-bom
 ```
-
-
-## Usage
 
 ```js
 var fs = require('fs');
@@ -46,15 +42,15 @@ fs.createReadStream('unicorn.txt')
 $ npm install --global strip-bom
 ```
 
-```sh
+```
 $ strip-bom --help
 
-Usage
-  $ strip-bom <file> > <new-file>
-  $ cat <file> | strip-bom > <new-file>
+  Usage
+    strip-bom <file> > <new-file>
+    cat <file> | strip-bom > <new-file>
 
-Example
-  $ strip-bom unicorn.txt > unicorn-without-bom.txt
+  Example
+    strip-bom unicorn.txt > unicorn-without-bom.txt
 ```
 
 

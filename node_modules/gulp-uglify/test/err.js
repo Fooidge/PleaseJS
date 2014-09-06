@@ -31,4 +31,5 @@ test('should report files in error', function(t) {
 	});
 
 	stream.write(testFile1);
+	stream.end();
 });

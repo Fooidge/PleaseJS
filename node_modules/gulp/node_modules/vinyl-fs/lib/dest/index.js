@@ -1,7 +1,9 @@
 'use strict';
 
+var _ = require('lodash');
+var defaults = _.defaults;
+
 var path = require('path');
-var defaults = require('lodash.defaults');
 var through2 = require('through2');
 var mkdirp = require('mkdirp');
 var fs = require('graceful-fs');

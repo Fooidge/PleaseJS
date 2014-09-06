@@ -1,6 +1,5 @@
 var isNull = require('../lib/isNull');
-var Stream = require('stream');
-var should = require('should');
+require('should');
 require('mocha');
 
 describe('isNull()', function() {
@@ -17,7 +16,7 @@ describe('isNull()', function() {
 
   it('should return false on defined values', function(done) {
     isNull(1).should.equal(false);
-    isNull("test").should.equal(false);
+    isNull('test').should.equal(false);
     done();
   });
 });

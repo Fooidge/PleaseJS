@@ -1,3 +1,7 @@
+var spies = require('./spy');
+var chmodSpy = spies.chmodSpy;
+var statSpy = spies.statSpy;
+
 var vfs = require('../');
 
 var path = require('path');

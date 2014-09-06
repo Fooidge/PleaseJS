@@ -1,3 +1,7 @@
+v0.3.6:
+  date: 2014-08-25
+  changes:
+    - Add support for coffee.md.
 v0.3.5:
   date: 2014-07-03
   changes:

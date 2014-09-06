@@ -18,7 +18,7 @@ module.exports = function (opts, cb) {
     if (Array.isArray(cb)) {
         var tasks = cb;
         var gulp = require('gulp');
-        cb = function() {
+        cb = function () {
             gulp.start.apply(gulp, tasks);
         }.bind(gulp);
     }
@@ -115,7 +115,7 @@ module.exports = function (opts, cb) {
 };
 
 function logEvent(event, filepath, opts) {
-    var msg = [gutil.colors.magenta(path.basename(filepath)), 'was', event];
+    var msg = [gutil.colors.magenta(path.relative(__dirname, filepath)), 'was', event];
     if (opts.name) { msg.unshift(gutil.colors.cyan(opts.name) + ' saw'); }
     gutil.log.apply(gutil, msg);
 }

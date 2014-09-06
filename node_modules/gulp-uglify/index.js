@@ -2,8 +2,9 @@
 var through = require('through2'),
 	uglify = require('uglify-js'),
 	merge = require('deepmerge'),
-	uglifyError = require('./lib/error.js'),
-	reSourceMapComment = /\n\/\/# sourceMappingURL=.+?$/;
+	PluginError = require('gulp-util/lib/PluginError'),
+	reSourceMapComment = /\n\/\/# sourceMappingURL=.+?$/,
+	pluginName = 'gulp-uglify';
 
 module.exports = function(opt) {
 
@@ -16,7 +17,7 @@ module.exports = function(opt) {
 		}
 
 		if (file.isStream()) {
-			return callback(uglifyError('Streaming not supported', {
+			return callback(new PluginError(pluginName, 'Streaming not supported', {
 				fileName: file.path,
 				showStack: false
 			}));
@@ -51,7 +52,7 @@ module.exports = function(opt) {
 			mangled = uglify.minify(String(file.contents), options);
 			file.contents = new Buffer(mangled.code.replace(reSourceMapComment, ''));
 		} catch (e) {
-			return callback(uglifyError(e.message, {
+			return callback(new PluginError(pluginName, e.message, {
 				fileName: file.path,
 				lineNumber: e.line,
 				stack: e.stack,

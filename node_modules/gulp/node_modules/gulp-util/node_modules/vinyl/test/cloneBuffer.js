@@ -1,5 +1,4 @@
 var cloneBuffer = require('../lib/cloneBuffer');
-var Stream = require('stream');
 var should = require('should');
 require('mocha');
 

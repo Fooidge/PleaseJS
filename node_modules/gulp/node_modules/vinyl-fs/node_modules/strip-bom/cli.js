@@ -2,26 +2,30 @@
 'use strict';
 var fs = require('fs');
 var pkg = require('./package.json');
-var stripBom = require('./index');
-var input = process.argv[2];
+var stripBom = require('./');
+var argv = process.argv.slice(2);
+var input = argv[0];
 
 function help() {
-	console.log(pkg.description);
-	console.log('');
-	console.log('Usage');
-	console.log('  $ strip-bom <file> > <new-file>');
-	console.log('  $ cat <file> | strip-bom > <new-file>');
-	console.log('');
-	console.log('Example');
-	console.log('  $ strip-bom unicorn.txt > unicorn-without-bom.txt');
+	console.log([
+		'',
+		'  ' + pkg.description,
+		'',
+		'  Usage',
+		'    strip-bom <file> > <new-file>',
+		'    cat <file> | strip-bom > <new-file>',
+		'',
+		'  Example',
+		'    strip-bom unicorn.txt > unicorn-without-bom.txt'
+	].join('\n'));
 }
 
-if (process.argv.indexOf('--help') !== -1) {
+if (argv.indexOf('--help') !== -1) {
 	help();
 	return;
 }
 
-if (process.argv.indexOf('--version') !== -1) {
+if (argv.indexOf('--version') !== -1) {
 	console.log(pkg.version);
 	return;
 }

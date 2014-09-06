@@ -1,6 +1,7 @@
 var extensions = {
   '.co': 'coco',
   '.coffee': 'coffee-script/register',
+  '.coffee.md': 'coffee-script/register',
   '.csv': 'require-csv',
   '.iced': 'iced-coffee-script/register',
   '.ini': 'require-ini',
@@ -28,6 +29,7 @@ var jsVariantExtensions = [
   '.js',
   '.co',
   '.coffee',
+  '.coffee.md',
   '.iced',
   '.jsx',
   '.litcoffee',

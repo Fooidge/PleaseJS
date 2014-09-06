@@ -1,11 +1,10 @@
-[![Build Status](https://travis-ci.org/wearefractal/glob2base.png?branch=master)](https://travis-ci.org/wearefractal/glob2base)
+# glob2base [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Support us][gittip-image]][gittip-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 
-[![NPM version](https://badge.fury.io/js/glob2base.png)](http://badge.fury.io/js/glob2base)
 
 ## Information
 
 <table>
-<tr> 
+<tr>
 <td>Package</td><td>glob2base</td>
 </tr>
 <tr>
@@ -14,43 +13,39 @@
 </tr>
 <tr>
 <td>Node Version</td>
-<td>>= 0.4</td>
+<td>>= 0.10</td>
 </tr>
 </table>
 
-Extracts a base path from a glob object.
-
 ## Usage
+
+The module is a function that takes in a node-glob instance and returns a string. Basically it just gives you everything before any globbing/matching happens.
 
 ```javascript
 var glob2base = require('glob2base');
 var glob = require('glob');
 
-var globber = new glob.Glob("js/**/*.js");
-var basePath = glob2base(globber);
+// js/
+glob2base(new glob.Glob('js/**/*.js'));
+
+// css/test/
+glob2base(new glob.Glob('css/test/{a,b}/*.css'));
+
+// pages/whatever/
+glob2base(new glob.Glob('pages/whatever/index.html'));
 ```
 
-## LICENSE
+## Like what we do?
 
-(MIT License)
+[gittip-url]: https://www.gittip.com/WeAreFractal/
+[gittip-image]: http://img.shields.io/gittip/WeAreFractal.svg
 
-Copyright (c) 2013 Fractal <contact@wearefractal.com>
+[downloads-image]: http://img.shields.io/npm/dm/glob2base.svg
+[npm-url]: https://npmjs.org/package/glob2base
+[npm-image]: http://img.shields.io/npm/v/glob2base.svg
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+[travis-url]: https://travis-ci.org/wearefractal/glob2base
+[travis-image]: http://img.shields.io/travis/wearefractal/glob2base.svg
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+[coveralls-url]: https://coveralls.io/r/wearefractal/glob2base
+[coveralls-image]: http://img.shields.io/coveralls/wearefractal/glob2base/master.svg

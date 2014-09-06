@@ -32,4 +32,5 @@ test('should minify files', function(t) {
 	});
 
 	stream.write(testFile1);
+	stream.end();
 });

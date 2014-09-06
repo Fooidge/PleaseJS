@@ -27,4 +27,5 @@ test('should leave null files as is', function(t) {
 	});
 
 	stream.write(testFile1);
+	stream.end();
 });

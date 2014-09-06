@@ -1,3 +1,7 @@
+var spies = require('./spy');
+var chmodSpy = spies.chmodSpy;
+var statSpy = spies.statSpy;
+
 var vfs = require('../');
 
 var path = require('path');
@@ -13,6 +17,9 @@ require('mocha');
 
 var wipeOut = function(cb) {
   rimraf(path.join(__dirname, './out-fixtures/'), cb);
+  spies.setError('false');
+  statSpy.reset();
+  chmodSpy.reset();
 };
 
 var dataWrap = function(fn) {
@@ -361,6 +368,245 @@ describe('dest stream', function() {
 
     stream1.write(file);
     stream1.end();
+  });
+
+  it('should update file mode to match the vinyl mode', function(done) {
+    var inputPath = path.join(__dirname, './fixtures/test.coffee');
+    var inputBase = path.join(__dirname, './fixtures/');
+    var expectedPath = path.join(__dirname, './out-fixtures/test.coffee');
+    var expectedContents = fs.readFileSync(inputPath);
+    var expectedCwd = __dirname;
+    var expectedBase = path.join(__dirname, './out-fixtures');
+    var startMode = 0655;
+    var expectedMode = 0722;
+
+    var expectedFile = new File({
+      base: inputBase,
+      cwd: __dirname,
+      path: inputPath,
+      contents: expectedContents,
+      stat: {
+        mode: expectedMode
+      }
+    });
+
+    var onEnd = function(){
+      should(chmodSpy.called).be.ok;
+      buffered.length.should.equal(1);
+      buffered[0].should.equal(expectedFile);
+      fs.existsSync(expectedPath).should.equal(true);
+      realMode(fs.lstatSync(expectedPath).mode).should.equal(expectedMode);
+      done();
+    };
+
+    fs.mkdirSync(expectedBase);
+    fs.closeSync(fs.openSync(expectedPath, 'w'));
+    fs.chmodSync(expectedPath, startMode);
+
+    chmodSpy.reset();
+    var stream = vfs.dest('./out-fixtures/', {cwd: __dirname});
+
+    var buffered = [];
+    bufferStream = through.obj(dataWrap(buffered.push.bind(buffered)), onEnd);
+
+    stream.pipe(bufferStream);
+    stream.write(expectedFile);
+    stream.end();
+  });
+
+  it('should update directory mode to match the vinyl mode', function(done) {
+    var inputBase = path.join(__dirname, './fixtures/');
+    var inputPath = path.join(__dirname, './fixtures/wow');
+    var expectedPath = path.join(__dirname, './out-fixtures/wow');
+    var expectedCwd = __dirname;
+    var expectedBase = path.join(__dirname, './out-fixtures');
+
+    var firstFile = new File({
+      base: inputBase,
+      cwd: __dirname,
+      path: expectedPath,
+      stat: fs.statSync(inputPath)
+    });
+    var startMode = firstFile.stat.mode;
+    var expectedMode = 0727;
+
+    var expectedFile = new File(firstFile);
+    expectedFile.stat.mode = (startMode & ~07777) | expectedMode;
+
+    var onEnd = function(){
+      buffered.length.should.equal(2);
+      buffered[0].should.equal(firstFile);
+      buffered[1].should.equal(expectedFile);
+      buffered[0].cwd.should.equal(expectedCwd, 'cwd should have changed');
+      buffered[0].base.should.equal(expectedBase, 'base should have changed');
+      buffered[0].path.should.equal(expectedPath, 'path should have changed');
+      realMode(fs.lstatSync(expectedPath).mode).should.equal(expectedMode);
+      done();
+    };
+
+    fs.mkdirSync(expectedBase);
+
+    var stream = vfs.dest('./out-fixtures/', {cwd: __dirname});
+
+    var buffered = [];
+    bufferStream = through.obj(dataWrap(buffered.push.bind(buffered)), onEnd);
+
+    stream.pipe(bufferStream);
+    stream.write(firstFile);
+    stream.write(expectedFile);
+    stream.end();
+  });
+
+  it('should report IO errors', function(done) {
+    var inputPath = path.join(__dirname, './fixtures/test.coffee');
+    var inputBase = path.join(__dirname, './fixtures/');
+    var expectedPath = path.join(__dirname, './out-fixtures/test.coffee');
+    var expectedContents = fs.readFileSync(inputPath);
+    var expectedCwd = __dirname;
+    var expectedBase = path.join(__dirname, './out-fixtures');
+    var expectedMode = 0722;
+
+    var expectedFile = new File({
+      base: inputBase,
+      cwd: __dirname,
+      path: inputPath,
+      contents: expectedContents,
+      stat: {
+        mode: expectedMode
+      }
+    });
+
+    fs.mkdirSync(expectedBase);
+    fs.closeSync(fs.openSync(expectedPath, 'w'));
+    fs.chmodSync(expectedPath, 0);
+
+    var stream = vfs.dest('./out-fixtures/', {cwd: __dirname});
+    stream.on('error', function(err) {
+      err.code.should.equal('EACCES');
+      done();
+    });
+    stream.write(expectedFile);
+  });
+
+  it('should report stat errors', function(done) {
+    var inputPath = path.join(__dirname, './fixtures/test.coffee');
+    var inputBase = path.join(__dirname, './fixtures/');
+    var expectedPath = path.join(__dirname, './out-fixtures/test.coffee');
+    var expectedContents = fs.readFileSync(inputPath);
+    var expectedCwd = __dirname;
+    var expectedBase = path.join(__dirname, './out-fixtures');
+    var expectedMode = 0722;
+
+    var expectedFile = new File({
+      base: inputBase,
+      cwd: __dirname,
+      path: inputPath,
+      contents: expectedContents,
+      stat: {
+        mode: expectedMode
+      }
+    });
+
+    fs.mkdirSync(expectedBase);
+    fs.closeSync(fs.openSync(expectedPath, 'w'));
+
+    spies.setError(function(mod, fn) {
+      if (fn === 'stat' && arguments[2] === expectedPath) {
+        return new Error('stat error');
+      }
+    });
+
+    var stream = vfs.dest('./out-fixtures/', {cwd: __dirname});
+    stream.on('error', function(err) {
+      err.message.should.equal('stat error');
+      done();
+    });
+    stream.write(expectedFile);
+  });
+
+  it('should report chmod errors', function(done) {
+    var inputPath = path.join(__dirname, './fixtures/test.coffee');
+    var inputBase = path.join(__dirname, './fixtures/');
+    var expectedPath = path.join(__dirname, './out-fixtures/test.coffee');
+    var expectedContents = fs.readFileSync(inputPath);
+    var expectedCwd = __dirname;
+    var expectedBase = path.join(__dirname, './out-fixtures');
+    var expectedMode = 0722;
+
+    var expectedFile = new File({
+      base: inputBase,
+      cwd: __dirname,
+      path: inputPath,
+      contents: expectedContents,
+      stat: {
+        mode: expectedMode
+      }
+    });
+
+    fs.mkdirSync(expectedBase);
+    fs.closeSync(fs.openSync(expectedPath, 'w'));
+
+    spies.setError(function(mod, fn) {
+      if (fn === 'chmod' && arguments[2] === expectedPath) {
+        return new Error('chmod error');
+      }
+    });
+
+    var stream = vfs.dest('./out-fixtures/', {cwd: __dirname});
+    stream.on('error', function(err) {
+      err.message.should.equal('chmod error');
+      done();
+    });
+    stream.write(expectedFile);
+  });
+
+  it('should not chmod a matching file', function(done) {
+    var inputPath = path.join(__dirname, './fixtures/test.coffee');
+    var inputBase = path.join(__dirname, './fixtures/');
+    var expectedPath = path.join(__dirname, './out-fixtures/test.coffee');
+    var expectedContents = fs.readFileSync(inputPath);
+    var expectedCwd = __dirname;
+    var expectedBase = path.join(__dirname, './out-fixtures');
+    var expectedMode = 0722;
+
+    var expectedFile = new File({
+      base: inputBase,
+      cwd: __dirname,
+      path: inputPath,
+      contents: expectedContents,
+      stat: {
+        mode: expectedMode
+      }
+    });
+
+    var expectedCount = 0;
+    spies.setError(function(mod, fn) {
+      if (fn === 'stat' && arguments[2] === expectedPath) {
+        expectedCount++;
+      }
+    });
+
+    var onEnd = function(){
+      expectedCount.should.equal(1);
+      should(chmodSpy.called).be.not.ok;
+      realMode(fs.lstatSync(expectedPath).mode).should.equal(expectedMode);
+      done();
+    };
+
+    fs.mkdirSync(expectedBase);
+    fs.closeSync(fs.openSync(expectedPath, 'w'));
+    fs.chmodSync(expectedPath, expectedMode);
+
+    statSpy.reset();
+    chmodSpy.reset();
+    var stream = vfs.dest('./out-fixtures/', {cwd: __dirname});
+
+    var buffered = [];
+    bufferStream = through.obj(dataWrap(buffered.push.bind(buffered)), onEnd);
+
+    stream.pipe(bufferStream);
+    stream.write(expectedFile);
+    stream.end();
   });
 
   ['end', 'finish'].forEach(function(eventName) {
