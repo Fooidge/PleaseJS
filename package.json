@@ -23,8 +23,9 @@
   "homepage": "https://github.com/Fooidge/PleaseJS",
   "devDependencies": {
     "gulp": "^3.8.6",
-    "gulp-uglify": "~0.3.1",
     "gulp-jshint": "~1.7.1",
-    "gulp-watch": "~0.6.8"
+    "gulp-uglify": "~0.3.1",
+    "gulp-watch": "~0.6.8",
+    "jshint-stylish": "^0.4.0"
   }
 }
