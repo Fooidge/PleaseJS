@@ -1,4 +1,4 @@
-/*!Please JS v0.2.5, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
+/*!Please JS v0.2.6, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
 (function( globalName, root, factory ) {
 	if ( typeof define === 'function' && define.amd ) {
 		define( [], factory );
@@ -508,7 +508,8 @@
 		Please.make_color = function( options ){
 			var color = [];
 			//clone base please options
-			var color_options = copy_object( make_color_default );
+			var color_options = copy_object( make_color_default ),
+				base_color = null;
 
 			if( options !== null ){
 			//override base Please options
@@ -520,13 +521,13 @@
 			}
 			//first, check for a base color
 			if ( color_options.base_color.length > 0 ) {
-				color_options.base_color = Please.NAME_to_HSV( color_options.base_color );
+				base_color = Please.NAME_to_HSV( color_options.base_color );
 			}
 			for ( var i = 0; i < color_options.colors_returned; i++ ) {
 				var random_hue = random_int( 0, 360 );
 				var hue,saturation,value;
-				if( color_options.base_color.length > 0 ){
-					hue = clamp( random_int( ( color_options.base_color.h - 5 ), ( color_options.base_color.h + 5 )), 0, 360);
+				if( base_color !== null ){
+					hue = clamp( random_int( ( base_color.h - 5 ), ( base_color.h + 5 )), 0, 360);
 					saturation = random_float( 0.4, 0.85 );
 					value = random_float( 0.4, 0.85 );
 					color.push({h: hue, s: saturation, v: value});

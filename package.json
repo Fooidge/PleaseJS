@@ -1,6 +1,6 @@
 {
   "name": "pleasejs",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "JS library to generate random pleasing colors/color schemes",
   "main": "Please.js",
   "scripts": {
