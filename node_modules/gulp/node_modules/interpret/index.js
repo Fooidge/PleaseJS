@@ -11,6 +11,7 @@ var extensions = {
   '.litcoffee': 'coffee-script/register',
   '.ls': 'LiveScript',
   '.toml': 'toml-require',
+  '.ts': 'typescript-require',
   '.xml': 'require-xml',
   '.yaml': 'require-yaml',
   '.yml': 'require-yaml'
@@ -33,7 +34,8 @@ var jsVariantExtensions = [
   '.iced',
   '.jsx',
   '.litcoffee',
-  '.ls'
+  '.ls',
+  '.ts'
 ];
 
 module.exports = {

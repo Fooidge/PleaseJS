@@ -1,3 +1,7 @@
+v0.3.7:
+  date: 2014-09-08
+  changes:
+    - Add support for [TypeScript](http://www.typescriptlang.org/).
 v0.3.6:
   date: 2014-08-25
   changes:

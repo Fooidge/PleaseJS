@@ -10,6 +10,11 @@ gulp.task('uglify', function(){
 		}))
 		.pipe(gulp.dest('dist'))
 });
+gulp.task('lint', function(){
+	return gulp.src('src/Please.js')
+		.pipe(jshint())
+		.pipe(jshint.reporter('default'));
+});
 /*
 gulp.task('watch', function(){
 	gulp.watch('Please.js',['uglify']);
@@ -17,4 +22,5 @@ gulp.task('watch', function(){
 */
 gulp.task('default', [], function(){
 	gulp.start('uglify');
+	gulp.start('lint');
 });

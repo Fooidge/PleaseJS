@@ -1,4 +1,4 @@
-/*Please JS v0.2.3, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
+/*!Please JS v0.2.5, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
 (function( globalName, root, factory ) {
 	if ( typeof define === 'function' && define.amd ) {
 		define( [], factory );
@@ -170,7 +170,7 @@
 			hue: null,
 			saturation: null,
 			value: null,
-			base_color: null,
+			base_color: '',
 			greyscale: false,
 			grayscale: false, //whatever I support them both, murrica
 			golden: true,
@@ -519,14 +519,14 @@
 				}
 			}
 			//first, check for a base color
-			if ( color_options.base_color !== null ) {
-				var base_color = Please.NAME_to_HSV( color_options.base_color );
+			if ( color_options.base_color.length > 0 ) {
+				color_options.base_color = Please.NAME_to_HSV( color_options.base_color );
 			}
 			for ( var i = 0; i < color_options.colors_returned; i++ ) {
 				var random_hue = random_int( 0, 360 );
 				var hue,saturation,value;
-				if( base_color != null ){
-					hue = clamp( random_int( ( base_color.h - 5 ), ( base_color.h + 5 )), 0, 360);
+				if( color_options.base_color.length > 0 ){
+					hue = clamp( random_int( ( color_options.base_color.h - 5 ), ( color_options.base_color.h + 5 )), 0, 360);
 					saturation = random_float( 0.4, 0.85 );
 					value = random_float( 0.4, 0.85 );
 					color.push({h: hue, s: saturation, v: value});
