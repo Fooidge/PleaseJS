@@ -1,4 +1,4 @@
-/*!Please JS v0.2.6, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
+/*!Please JS v0.3.0, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
 (function( globalName, root, factory ) {
 	if ( typeof define === 'function' && define.amd ) {
 		define( [], factory );
@@ -273,7 +273,7 @@
 		//accepts hex string, produces RGB object
 		Please.HEX_to_RGB = function( hex ){
 			var regex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-			hex = hex.replace( regex, function( r, g, b ) {
+			hex = hex.replace( regex, function( m, r, g, b ) {
 				return r + r + g + g + b + b;
 			});
 			var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec( hex );
@@ -521,7 +521,13 @@
 			}
 			//first, check for a base color
 			if ( color_options.base_color.length > 0 ) {
-				base_color = Please.NAME_to_HSV( color_options.base_color );
+				//then determine if its a hex string or a named color
+				if( color_options.base_color.match( /^#?([0-9a-f]{3})([0-9a-f]{3})?$/i ) ){
+					base_color = Please.HEX_to_HSV( color_options.base_color );
+				}
+				else{
+					base_color = Please.NAME_to_HSV( color_options.base_color );
+				}
 			}
 			for ( var i = 0; i < color_options.colors_returned; i++ ) {
 				var random_hue = random_int( 0, 360 );
