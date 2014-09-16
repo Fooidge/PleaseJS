@@ -1,10 +1,12 @@
-/*Please JS v0.2.3, Jordan Checkman 2014, Checkman.io, MIT Liscense, Have fun.*/
-(function( globalName, root, factory ){
+/*Please JS v0.2.3, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
+(function( globalName, root, factory ) {
 	if ( typeof define === 'function' && define.amd ) {
 		define( [], factory );
-	}else if ( typeof exports === 'object' ) {
+	}
+	else if ( typeof exports === 'object' ) {
 		module.exports = factory();
-	}else{
+	}
+	else{
 		root[globalName] = factory();
 	}
 }('Please', this, function(){
@@ -168,7 +170,7 @@
 			hue: null,
 			saturation: null,
 			value: null,
-			base_color: '',
+			base_color: null,
 			greyscale: false,
 			grayscale: false, //whatever I support them both, murrica
 			golden: true,
@@ -251,6 +253,7 @@
 		}
 
 		Please.NAME_to_HEX = function( name ){
+			name = name.toLowerCase();
 			if( name in color_data ){
 				return color_data[name];
 			}
@@ -412,10 +415,6 @@
 			switch( scheme_options.scheme_type.toLowerCase() ){
 				case 'monochromatic':
 				case 'mono':
-					// var adjusted = clone( HSV ),
-					// adjusted_s,
-					// adjusted_v,
-					// i;
 					for ( i = 1; i <= 2; i++ ) {
 
 						adjusted = clone( HSV );
@@ -429,7 +428,7 @@
 						adjusted.s = adjusted_s;
 						adjusted.v = adjusted_v;
 
-						scheme.push(adjusted);
+						scheme.push( adjusted );
 					}
 					for ( i = 1; i <= 2; i++ ) {
 
@@ -520,15 +519,14 @@
 				}
 			}
 			//first, check for a base color
-			if ( color_options.base_color.length > 0 ) {
-				var base_color = color_data[color_options.base_color.toLowerCase()];
-				base_color = Please.HEX_to_HSV( base_color );
+			if ( color_options.base_color !== null ) {
+				var base_color = Please.NAME_to_HSV( color_options.base_color );
 			}
 			for ( var i = 0; i < color_options.colors_returned; i++ ) {
 				var random_hue = random_int( 0, 360 );
 				var hue,saturation,value;
 				if( base_color != null ){
-					hue = random_int( ( base_color.h - 5 ), ( base_color.h + 5 ));
+					hue = clamp( random_int( ( base_color.h - 5 ), ( base_color.h + 5 )), 0, 360);
 					saturation = random_float( 0.4, 0.85 );
 					value = random_float( 0.4, 0.85 );
 					color.push({h: hue, s: saturation, v: value});
@@ -596,9 +594,9 @@
 				}
 			}
 
-			var contrast;
-			var value_range = contrast_quotient( HSV );
-			var adjusted_hue;
+			var contrast,
+			value_range = contrast_quotient( HSV ),
+			adjusted_hue;
 
 			if( contrast_options.golden === true ){
 				adjusted_hue = ( HSV.h * ( 1 + PHI ) ) % 360;
