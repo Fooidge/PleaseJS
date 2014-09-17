@@ -1,6 +1,7 @@
 #through
 
 [![build status](https://secure.travis-ci.org/dominictarr/through.png)](http://travis-ci.org/dominictarr/through)
+[![testling badge](https://ci.testling.com/dominictarr/through.png)](https://ci.testling.com/dominictarr/through)
 
 Easy way to create a `Stream` that is both `readable` and `writable`. 
 

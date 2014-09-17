@@ -293,15 +293,15 @@
 
 		//accepts HSV object, returns RGB object
 		Please.HSV_to_RGB = function( HSV ){
-			var r, g, b;
-			var h = ( HSV.h / 360 );
-			var s = HSV.s;
-			var v = HSV.v;
-			var i = Math.floor( h * 6 );
-			var f = h * 6 - i;
-			var p = v * ( 1 - s );
-			var q = v * ( 1 - f * s );
-			var t = v * ( 1 - ( 1 - f ) * s );
+			var r, g, b,
+				h = ( HSV.h / 360 ),
+				s = HSV.s,
+				v = HSV.v,
+				i = Math.floor( h * 6 ),
+				f = h * ( 6 - i ),
+				p = v * ( 1 - s ),
+				q = v * ( 1 - f * s ),
+				t = v * ( 1 - ( 1 - f ) * s );
 			switch( i % 6 ){
 				case 0:
 					r = v;
@@ -335,9 +335,9 @@
 					break;
 			}
 			return{
-				r:Math.floor( r * 255 ),
-				g:Math.floor( g * 255 ),
-				b:Math.floor( b * 255 )
+				r: Math.floor( r * 255 ),
+				g: Math.floor( g * 255 ),
+				b: Math.floor( b * 255 )
 			};
 		};
 
@@ -506,9 +506,9 @@
 
 		//accepts options object returns list or single color
 		Please.make_color = function( options ){
-			var color = [];
+			var color = [],
 			//clone base please options
-			var color_options = copy_object( make_color_default ),
+				color_options = copy_object( make_color_default ),
 				base_color = null;
 
 			if( options !== null ){
@@ -530,13 +530,19 @@
 				}
 			}
 			for ( var i = 0; i < color_options.colors_returned; i++ ) {
-				var random_hue = random_int( 0, 360 );
-				var hue,saturation,value;
+				var random_hue = random_int( 0, 360 ),
+					hue,
+					saturation,
+					value;
 				if( base_color !== null ){
 					hue = clamp( random_int( ( base_color.h - 5 ), ( base_color.h + 5 )), 0, 360);
 					saturation = random_float( 0.4, 0.85 );
 					value = random_float( 0.4, 0.85 );
-					color.push({h: hue, s: saturation, v: value});
+					color.push({
+						h: hue, 
+						s: saturation, 
+						v: value
+					});
 				}
 				else{
 					if( color_options.greyscale === true || color_options.grayscale === true ){
