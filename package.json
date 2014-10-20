@@ -2,7 +2,7 @@
   "name": "pleasejs",
   "version": "0.3.0",
   "description": "JS library to generate random pleasing colors/color schemes",
-  "main": "Please.js",
+  "main": "./src/Please.js",
   "scripts": {
     "test": "Please.make_color();"
   },
