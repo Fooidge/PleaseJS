@@ -1,4 +1,4 @@
-/*!Please JS v0.3.0, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
+/*!Please JS v0.4.0, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
 (function( globalName, root, factory ) {
 	if ( typeof define === 'function' && define.amd ) {
 		define( [], factory );
@@ -580,7 +580,13 @@
 					value;
 				if( base_color !== null ){
 					hue = clamp( random_int( ( base_color.h - 5 ), ( base_color.h + 5 ), randomiser), 0, 360);
-					saturation = random_float( 0.4, 0.85, randomiser );
+					//fix for black/gray as a base color returning reds
+					if( base_color.s === 0 ) {
+						saturation = 0;
+					}
+					else{
+						saturation = random_float( 0.4, 0.85, randomiser );
+					}
 					value = random_float( 0.4, 0.85, randomiser );
 					color.push({
 						h: hue,
