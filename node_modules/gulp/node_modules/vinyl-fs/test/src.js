@@ -26,7 +26,7 @@ describe('source stream', function() {
   it('should explode on invalid glob (empty)', function(done) {
     var stream;
     try {
-      stream = gulp.src();
+      stream = vfs.src();
     } catch (err) {
       should.exist(err);
       should.not.exist(stream);
@@ -37,7 +37,7 @@ describe('source stream', function() {
   it('should explode on invalid glob (number)', function(done) {
     var stream;
     try {
-      stream = gulp.src(123);
+      stream = vfs.src(123);
     } catch (err) {
       should.exist(err);
       should.not.exist(stream);
@@ -45,15 +45,12 @@ describe('source stream', function() {
     }
   });
 
-  it('should explode on invalid glob (empty array)', function(done) {
-    var stream;
-    try {
-      stream = gulp.src([]);
-    } catch (err) {
-      should.exist(err);
-      should.not.exist(stream);
+  it('should not explode on invalid glob (empty array)', function(done) {
+    var stream = vfs.src([]);
+    stream.once('data', done);
+    stream.once('end', function(){
       done();
-    }
+    });
   });
 
   it('should pass through writes', function(done) {

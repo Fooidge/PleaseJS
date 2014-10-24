@@ -22,10 +22,10 @@
   },
   "homepage": "https://github.com/Fooidge/PleaseJS",
   "devDependencies": {
-    "gulp": "^3.8.6",
-    "gulp-jshint": "~1.7.1",
-    "gulp-uglify": "~0.3.1",
-    "gulp-watch": "~0.6.8",
+    "gulp": "^3.8.9",
+    "gulp-jshint": "^1.7.1",
+    "gulp-uglify": "^0.3.2",
+    "gulp-watch": "^0.6.10",
     "jshint-stylish": "^0.4.0"
   }
 }

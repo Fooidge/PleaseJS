@@ -80,7 +80,7 @@ This is just [glob-watcher]
 [glob-stream]: https://github.com/wearefractal/glob-stream
 [node-glob]: https://github.com/isaacs/node-glob
 [gaze]: https://github.com/shama/gaze
-[glob-watcher]: https://github.com/shama/gaze
+[glob-watcher]: https://github.com/wearefractal/glob-watcher
 [vinyl]: https://github.com/wearefractal/vinyl
 
 [npm-url]: https://npmjs.org/package/vinyl-fs

@@ -63,9 +63,9 @@ $ npm install --global strip-json-comments
 ```sh
 $ strip-json-comments --help
 
-strip-json-comments <input-file> > <output-file>
+strip-json-comments input-file > output-file
 # or
-cat <input-file> | strip-json-comments > <output-file>
+strip-json-comments < input-file > output-file
 ```
 
 

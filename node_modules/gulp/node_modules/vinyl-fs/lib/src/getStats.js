@@ -8,7 +8,7 @@ function getStats() {
 }
 
 function fetchStats(file, enc, cb) {
-  fs.stat(file.path, function (err, stat) {
+  fs.lstat(file.path, function (err, stat) {
     if (stat) {
       file.stat = stat;
     }

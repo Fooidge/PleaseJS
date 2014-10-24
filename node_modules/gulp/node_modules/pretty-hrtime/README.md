@@ -11,7 +11,6 @@ Usage
 
 ```javascript
 var prettyHrtime = require('pretty-hrtime');
-var process = require('process');
 
 var start = process.hrtime();
 // do stuff
