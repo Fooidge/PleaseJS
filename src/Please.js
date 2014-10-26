@@ -426,6 +426,7 @@
 			//clone base please options
 			var scheme_options = copy_object( make_scheme_default ),
 			adjusted,
+			secondary,
 			adjusted_h,
 			adjusted_s,
 			adjusted_v,

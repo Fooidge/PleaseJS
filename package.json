@@ -1,6 +1,6 @@
 {
   "name": "pleasejs",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "JS library to generate random pleasing colors/color schemes",
   "main": "./dist/Please.js",
   "scripts": {
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/Fooidge/PleaseJS",
   "devDependencies": {
     "gulp": "^3.8.9",
+    "gulp-bump": "^0.1.11",
     "gulp-jshint": "^1.7.1",
     "gulp-uglify": "^0.3.2",
     "gulp-watch": "^0.6.10",
