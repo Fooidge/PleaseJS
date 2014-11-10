@@ -9,7 +9,7 @@ gulp.task('uglify', function(){
 		.pipe(uglify({
 			preserveComments: 'some',
 		}))
-		.pipe(gulp.dest('dist'))
+		.pipe(gulp.dest('dist'));
 });
 gulp.task('lint', function(){
 	return gulp.src('src/Please.js')

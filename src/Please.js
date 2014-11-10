@@ -1,4 +1,4 @@
-/*!Please JS v0.4.0, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
+/*!Please JS v0.4.2, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
 (function( globalName, root, factory ) {
 	if ( typeof define === 'function' && define.amd ) {
 		define( [], factory );
@@ -330,16 +330,29 @@
 
 		//accepts HSV object, returns RGB object
 		Please.HSV_to_RGB = function( HSV ){
-			var r, g, b,
-				h = ( HSV.h / 360 ),
+			var h = HSV.h,
 				s = HSV.s,
-				v = HSV.v,
-				i = Math.floor( h * 6 ),
-				f = h * ( 6 - i ),
-				p = v * ( 1 - s ),
-				q = v * ( 1 - f * s ),
-				t = v * ( 1 - ( 1 - f ) * s );
-			switch( i % 6 ){
+				v = HSV.v;
+
+			var r, g, b;
+
+			var i, f, p, q, t;
+
+			if( s === 0 ){
+				return {
+					r: v,
+					g: v,
+					b: v
+				};
+			}
+			h /= 60;
+			i = Math.floor( h );
+			f = h - i;
+			p = v * ( 1 - s );
+			q = v * ( 1 - s * f );
+			t = v * ( 1 - s * ( 1 - f ) );
+
+			switch(i) {
 				case 0:
 					r = v;
 					g = t;
@@ -371,26 +384,26 @@
 					b = q;
 					break;
 			}
-			return{
-				r: Math.floor( r * 255 ),
-				g: Math.floor( g * 255 ),
-				b: Math.floor( b * 255 )
+
+			return {
+				r: Math.floor(r * 255),
+				g: Math.floor(g * 255),
+				b: Math.floor(b * 255)
 			};
 		};
 
 		//accepts RGB object, returns HSV object
 		Please.RGB_to_HSV = function( RGB ){
-			var r, g, b;
-			var computed_H = 0;
-			var computed_S = 0;
-			var computed_V = 0;
-			r = ( RGB.r / 255 );
-			g = ( RGB.g / 255 );
-			b = ( RGB.b / 255 );
-			var min_RGB = Math.min( r, Math.min( g, b ) );
-			var max_RGB = Math.max( r, Math.max( g, b ) );
+			var r = ( RGB.r / 255 ),
+				g = ( RGB.g / 255 ),
+				b = ( RGB.b / 255 );
+			var computed_H = 0,
+				computed_S = 0,
+				computed_V = 0;
+			var min_RGB = Math.min( r, Math.min( g, b ) ),
+				max_RGB = Math.max( r, Math.max( g, b ) );
 			// Black-gray-white
-			if ( min_RGB == max_RGB ) {
+			if ( min_RGB === max_RGB ) {
 				computed_V = min_RGB;
 				return{
 					h: 0,
@@ -399,8 +412,8 @@
 				};
 			}
 			// Colors other than black-gray-white:
-			var d = ( r == min_RGB ) ? g - b : (( b == min_RGB ) ? r - g : b - r);
-			var h = ( r == min_RGB ) ? 3 : (( b == min_RGB ) ? 1 : 5 );
+			var d = ( r === min_RGB ) ? g - b : (( b === min_RGB ) ? r - g : b - r);
+			var h = ( r === min_RGB ) ? 3 : (( b === min_RGB ) ? 1 : 5 );
 			computed_H = 60 * ( h - d / ( max_RGB - min_RGB ));
 			computed_S = ( max_RGB - min_RGB ) / max_RGB;
 			computed_V = max_RGB;
