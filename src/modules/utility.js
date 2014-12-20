@@ -19,3 +19,13 @@ function random_float( min, max, randomiser ){
 function clamp( num, min, max ){
 	return Math.max( min, Math.min( num, max ));
 }
+
+function copy_object( object ){
+	var copy = {};
+	for( var key in object ){
+		if( object.hasOwnProperty( key )){
+			copy[key] = object[key];
+		}
+	}
+	return copy;
+}
