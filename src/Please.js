@@ -330,7 +330,7 @@
 
 		//accepts HSV object, returns RGB object
 		Please.HSV_to_RGB = function( HSV ){
-			var h = HSV.h,
+			var h = HSV.h % 360,
 				s = HSV.s,
 				v = HSV.v;
 
