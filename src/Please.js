@@ -578,7 +578,7 @@
 			}
 
 			//first, check for a base color
-			if ( color_options.base_color.length > 0 ) {
+			if ( color_options.base_color && color_options.base_color.length > 0 ) {
 				//then determine if its a hex string or a named color
 				if( color_options.base_color.match( /^#?([0-9a-f]{3})([0-9a-f]{3})?$/i ) ){
 					base_color = Please.HEX_to_HSV( color_options.base_color );
