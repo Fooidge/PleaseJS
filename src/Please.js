@@ -177,12 +177,14 @@
 			full_random: false,
 			colors_returned: 1,
 			format: 'hex',
-			seed: null
+			seed: null,
+			
 		};
 
 		var make_scheme_default = {
 			scheme_type: 'analogous',
 			format: 'hex'
+			alpha: 1.0		// default to opaque
 		};
 
 		var make_contrast_default = {
@@ -231,6 +233,17 @@
 							raw_rgb.r + "," +
 							raw_rgb.g + "," +
 							raw_rgb.b + ")";
+					}
+					break;
+				case 'rgb-alpha':
+					for ( i = 0; i < array.length; i++ ) {
+						var raw_rgb =  Please.HSV_to_RGB( array[i] );
+						array[i] =
+							"rgba(" +
+							raw_rgb.r + "," +
+							raw_rgb.g + "," +
+							raw_rgb.b + ","+
+							alpha + ")";
 					}
 					break;
 				case 'hsv':
@@ -708,3 +721,7 @@
 	}
 	return define_Please();
 }));
+
+
+
+	
