@@ -1,4 +1,4 @@
-# PleaseJS
+# PleaseJS-al version
 JavaScript Library for creating random pleasing colors and color schemes
 Forked from: https://github.com/Fooidge/PleaseJS
 
