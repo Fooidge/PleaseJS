@@ -729,3 +729,7 @@ var alpha = 1;
 	}
 	return define_Please();
 }));
+
+
+console.log(Please.make_color({colors_returned:3, format:'rgba', alpha:0.9}));
+	
