@@ -1,4 +1,5 @@
 /*!Please JS v0.4.2, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
+var alpha = 1;
 (function( globalName, root, factory ) {
 	if ( typeof define === 'function' && define.amd ) {
 		define( [], factory );
@@ -178,13 +179,12 @@
 			colors_returned: 1,
 			format: 'hex',
 			seed: null,
-			
+			alpha: 1		
 		};
 
 		var make_scheme_default = {
 			scheme_type: 'analogous',
 			format: 'hex'
-			alpha: 1.0		// default to opaque
 		};
 
 		var make_contrast_default = {
@@ -235,7 +235,7 @@
 							raw_rgb.b + ")";
 					}
 					break;
-				case 'rgb-alpha':
+				case 'rgba':
 					for ( i = 0; i < array.length; i++ ) {
 						var raw_rgb =  Please.HSV_to_RGB( array[i] );
 						array[i] =
@@ -301,6 +301,15 @@
 				return number / 18446744073709551616;
 			};
 		}
+
+		var alpha=1;
+		Please.Alpha = function(a){
+			if(a>1||a<0){
+				alpha=1;
+			}
+			alpha=a;
+		}
+		
 
 		Please.NAME_to_HEX = function( name ){
 			name = name.toLowerCase();
@@ -573,8 +582,8 @@
 			var color = [],
 			//clone base please options
 				color_options = copy_object( make_color_default ),
+				
 				base_color = null;
-
 			if( options !== null ){
 			//override base Please options
 				for( var key in options ){
@@ -583,13 +592,14 @@
 					}
 				}
 			}
+			console.log(color_options.alpha);
+			Please.Alpha(color_options.alpha);
 
 			var randomiser = null;
 
 			if (typeof color_options.seed === 'string') {
 				randomiser = new RC4Random(color_options.seed);
 			}
-
 			//first, check for a base color
 			if ( color_options.base_color.length > 0 ) {
 				//then determine if its a hex string or a named color
@@ -723,5 +733,5 @@
 }));
 
 
-
+console.log(Please.make_color({colors_returned:3, format:'rgba', alpha:0.9}));
 	
