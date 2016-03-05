@@ -1,4 +1,5 @@
 /*!Please JS v0.4.2, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
+var alpha = 1;
 (function( globalName, root, factory ) {
 	if ( typeof define === 'function' && define.amd ) {
 		define( [], factory );
@@ -177,7 +178,8 @@
 			full_random: false,
 			colors_returned: 1,
 			format: 'hex',
-			seed: null
+			seed: null,
+			alpha: 1		
 		};
 
 		var make_scheme_default = {
@@ -231,6 +233,17 @@
 							raw_rgb.r + "," +
 							raw_rgb.g + "," +
 							raw_rgb.b + ")";
+					}
+					break;
+				case 'rgba':
+					for ( i = 0; i < array.length; i++ ) {
+						var raw_rgb =  Please.HSV_to_RGB( array[i] );
+						array[i] =
+							"rgba(" +
+							raw_rgb.r + "," +
+							raw_rgb.g + "," +
+							raw_rgb.b + ","+
+							alpha + ")";
 					}
 					break;
 				case 'hsv':
@@ -287,6 +300,14 @@
 				}
 				return number / 18446744073709551616;
 			};
+		}
+
+		var alpha=1;
+		Please.Alpha = function(a){
+			if(a>1||a<0){
+				alpha=1;
+			}
+			alpha=a;
 		}
 
 		Please.NAME_to_HEX = function( name ){
@@ -560,8 +581,8 @@
 			var color = [],
 			//clone base please options
 				color_options = copy_object( make_color_default ),
+				
 				base_color = null;
-
 			if( options !== null ){
 			//override base Please options
 				for( var key in options ){
@@ -570,13 +591,13 @@
 					}
 				}
 			}
+			Please.Alpha(color_options.alpha);
 
 			var randomiser = null;
 
 			if (typeof color_options.seed === 'string') {
 				randomiser = new RC4Random(color_options.seed);
 			}
-
 			//first, check for a base color
 			if ( color_options.base_color.length > 0 ) {
 				//then determine if its a hex string or a named color
@@ -708,3 +729,7 @@
 	}
 	return define_Please();
 }));
+
+
+console.log(Please.make_color({colors_returned:3, format:'rgba', alpha:0.9}));
+	
