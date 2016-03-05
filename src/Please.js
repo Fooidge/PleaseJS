@@ -309,7 +309,6 @@ var alpha = 1;
 			}
 			alpha=a;
 		}
-		
 
 		Please.NAME_to_HEX = function( name ){
 			name = name.toLowerCase();
@@ -592,7 +591,6 @@ var alpha = 1;
 					}
 				}
 			}
-			console.log(color_options.alpha);
 			Please.Alpha(color_options.alpha);
 
 			var randomiser = null;
@@ -731,7 +729,3 @@ var alpha = 1;
 	}
 	return define_Please();
 }));
-
-
-console.log(Please.make_color({colors_returned:3, format:'rgba', alpha:0.9}));
-	
