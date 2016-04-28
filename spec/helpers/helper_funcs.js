@@ -10,7 +10,7 @@ beforeEach(function (){
     };
 
     this.hexToHsv = function (color) {
-        var hsv = {h: calcHue(color), s: calcSat(color), v: calcValue(color)};
+        var hsv = {h: this.calcHue(color), s: this.calcSat(color), v: this.calcValue(color)};
         return hsv;
     };
 
