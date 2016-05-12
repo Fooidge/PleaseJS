@@ -7,8 +7,15 @@ describe("Please.make_scheme()",
         };
         this.scheme = Please.make_scheme(base_color, options);
         this.correctScheme = ['#ff0000', '#ff5400', '#ffaa00', '#ffff00', '#aaff00', '#54ff00'];
-        this.correctSchemeHsv = [{ h: 0, s: 1, v: 1 }, { h: 20, s: 1, v: 1 }, { h: 40, s: 1, v: 1 }, { h: 60, s: 1, v: 1 }, { h: 80, s: 1, v: 1 }, { h: 100, s: 1, v: 1 }]
-      }
+        this.correctSchemeHsv = [
+          { h: 0, s: 1, v: 1 },
+          { h: 20, s: 1, v: 1 },
+          { h: 40, s: 1, v: 1 },
+          { h: 60, s: 1, v: 1 },
+          { h: 80, s: 1, v: 1 },
+          { h: 100, s: 1, v: 1 }
+        ];
+      };
     });
 
     describe("set to make a monochromatic color scheme",
@@ -23,7 +30,7 @@ describe("Please.make_scheme()",
               });
 
             expect(scheme).toEqual(['#ff0000', '#ff0000', '#ff0000', '#e51616', '#cc2828']);
-          }
+          };
         });
 
         it("by passing {scheme_type: 'mono'} as an option",
@@ -48,7 +55,7 @@ describe("Please.make_scheme()",
               scheme_type: str
               });
             expect(scheme).toEqual(['#ff0000', '#00ffff']);
-          }
+          };
         });
 
         it("by passing {scheme_type: 'complement'} as an option",
@@ -74,7 +81,7 @@ describe("Please.make_scheme()",
               });
 
             expect(scheme).toEqual(['#ff0000', '#00ffbf', '#00ffbf']);
-          }
+          };
         });
 
         it("by passing {scheme_type: 'split'} as an option",
@@ -84,16 +91,14 @@ describe("Please.make_scheme()",
          );
 
         it(
-          "by passing {scheme_type: 'split-complement'} as an "
-          + "option",
+          "by passing {scheme_type: 'split-complement'} as an option",
           function () {
             this.test("split-complement");
           }
          );
 
         it(
-          "by passing {scheme_type: 'split-complementary'} as an "
-          + "option",
+          "by passing {scheme_type: 'split-complementary'} as an option",
           function () {
             this.test("split-complementary");
           }
@@ -152,7 +157,7 @@ describe("Please.make_scheme()",
           });
           var correctScheme = ['#ff0000', '#00ff00', '#0000ff'];
           expect(scheme).toEqual(correctScheme);
-        }
+        };
       });
 
       it("by passing {scheme_type: 'triadic'} as an option", function () {

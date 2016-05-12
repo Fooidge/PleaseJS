@@ -40,11 +40,10 @@ beforeEach(function (){
         b: parseInt(color.slice(5), 16)
       };
 
-      var chroma = Math.max(rgb.r, rgb.g, rgb.b)
-        - Math.min(rgb.r, rgb.g, rgb.b);
       var value = Math.max(rgb.r, rgb.g, rgb.b);
+      var chroma = value - Math.min(rgb.r, rgb.g, rgb.b);
       var calculatedSat = 0;
-      if (value != 0)
+      if (value !== 0)
       {
         calculatedSat = chroma / value;
       }

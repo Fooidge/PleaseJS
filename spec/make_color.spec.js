@@ -54,7 +54,6 @@ describe("Please.make_color()",
       }
      );
 
-    /* This occasionally fails for now. HELP WANTED. */
     it("with a base color",
       function (){
         var generatedColor = Please.make_color(
@@ -64,15 +63,15 @@ describe("Please.make_color()",
 
         // Correct hue
         var hue = this.calcHue(generatedColor);
-        expect(0 <= hue || hue <= 5).toBe(true);
+        expect(0 <= hue || hue <= 5).toBe(true); // TODO: should be &&?
 
         // Correct saturation
         var sat = this.calcSat(generatedColor);
-        expect(.4 <= sat || sat <= .85).toBe(true);
+        expect(0.4 <= sat || sat <= 0.85).toBe(true);
 
         // Correct value
         var value = this.calcValue(generatedColor);
-        expect(.4 <= value || value <= .85).toBe(true);
+        expect(0.4 <= value || value <= 0.85).toBe(true);
       }
      );
 
@@ -81,12 +80,11 @@ describe("Please.make_color()",
         beforeEach(function (){
           this.test = function (spelling){
             var options = {};
-            spelling == "grayscale"
-            ? (options.grayscale = true) : (options.greyscale = true);
+            options[spelling] = true;
             var color = Please.make_color(options)[0];
 
             expect(this.calcSat(color)).toBeCloseTo(0);
-          }
+          };
         });
 
         it("(grayscale)",
