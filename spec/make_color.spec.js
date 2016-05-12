@@ -1,8 +1,5 @@
 describe("Please.make_color()",
   function (){
-
-    // TODO: replace calc* with this.calc*
-
     it("with default arguments",
       function (){
         var color = Please.make_color()[0];
@@ -63,15 +60,15 @@ describe("Please.make_color()",
 
         // Correct hue
         var hue = this.calcHue(generatedColor);
-        expect(0 <= hue || hue <= 5).toBe(true); // TODO: should be &&?
+        expect(0 <= hue && hue <= 5).toBe(true);
 
         // Correct saturation
         var sat = this.calcSat(generatedColor);
-        expect(0.4 <= sat || sat <= 0.85).toBe(true);
+        expect(0.4 <= sat && sat <= 0.85).toBe(true);
 
         // Correct value
         var value = this.calcValue(generatedColor);
-        expect(0.4 <= value || value <= 0.85).toBe(true);
+        expect(0.4 <= value && value <= 0.85).toBe(true);
       }
      );
 
