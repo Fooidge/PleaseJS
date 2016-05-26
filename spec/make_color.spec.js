@@ -1,10 +1,11 @@
 describe("Please.make_color()",
   function (){
+    var hexRegex = /^#[0-9a-fA-F]{6}$/;
+
     it("with default arguments",
       function (){
         var color = Please.make_color()[0];
-        var hexRegex = /^#[0-9a-fA-F]{6}$/;
-        expect(hexRegex.test(color)).toBe(true);
+        expect(color).toMatch(hexRegex);
 
         /* I don't know how to test the hue. */
         expect(this.calcSat(color)).toBeCloseTo(0.4, 0);
@@ -22,6 +23,7 @@ describe("Please.make_color()",
             hue: hue
           })[0];
 
+        expect(color).toMatch(hexRegex);
         expect(this.calcHue(color)).toBeCloseTo(hue, -1);
       }
      );
@@ -34,6 +36,7 @@ describe("Please.make_color()",
             saturation: saturation
           })[0];
 
+        expect(color).toMatch(hexRegex);
         expect(this.calcSat(color)).toBeCloseTo(saturation, 1);
       }
      );
@@ -47,6 +50,7 @@ describe("Please.make_color()",
           })[0];
 
 
+        expect(color).toMatch(hexRegex);
         expect(this.calcValue(color)).toBeCloseTo(value, 0);
       }
      );
@@ -69,6 +73,8 @@ describe("Please.make_color()",
         // Correct value
         var value = this.calcValue(generatedColor);
         expect(0.4 <= value && value <= 0.85).toBe(true);
+
+        expect(generatedColor).toMatch(hexRegex);
       }
      );
 
@@ -80,6 +86,7 @@ describe("Please.make_color()",
             options[spelling] = true;
             var color = Please.make_color(options)[0];
 
+            expect(color).toMatch(hexRegex);
             expect(this.calcSat(color)).toBeCloseTo(0);
           };
         });
@@ -98,8 +105,6 @@ describe("Please.make_color()",
       }
     );
 
-
-
     it("with grayscale set to false",
       function (){
         var color = Please.make_color(
@@ -107,8 +112,7 @@ describe("Please.make_color()",
             grayscale: false
           })[0];
 
-        var hexRegex = /^#[0-9a-fA-F]{6}$/;
-        expect(hexRegex.test(color)).toBe(true);
+          expect(color).toMatch(hexRegex);
       }
      );
 
@@ -119,8 +123,7 @@ describe("Please.make_color()",
             greyscale: false
           })[0];
 
-        var hexRegex = /^#[0-9a-fA-F]{6}$/;
-        expect(hexRegex.test(color)).toBe(true);
+          expect(color).toMatch(hexRegex);
       }
      );
 
@@ -130,9 +133,8 @@ describe("Please.make_color()",
           {
             golden: false
           })[0];
-        var hexRegex = /^#[0-9a-fA-F]{6}$/;
 
-        expect(hexRegex.test(color)).toBe(true);
+        expect(color).toMatch(hexRegex);
 
         expect(this.calcSat(color)).toBeCloseTo(0.4, 0);
         expect(this.calcValue(color)).toBeCloseTo(0.75, 0);
@@ -145,8 +147,9 @@ describe("Please.make_color()",
           {
             golden: true
           })[0];
-        var hexRegex = /^#[0-9a-fA-F]{6}$/;
-        expect(hexRegex.test(color)).toBe(true);
+
+        expect(color).toMatch(hexRegex);
+
 
         /* I don't know how to test the hue. */
         expect(this.calcSat(color)).toBeCloseTo(0.4, 0);
@@ -160,8 +163,7 @@ describe("Please.make_color()",
           {
             full_random: true
           })[0];
-        var hexRegex = /^#[0-9a-fA-F]{6}$/;
-        expect(hexRegex.test(color)).toBe(true);
+        expect(color).toMatch(hexRegex);
       }
      );
 
@@ -171,8 +173,9 @@ describe("Please.make_color()",
           {
             full_random: false
           })[0];
-        var hexRegex = /^#[0-9a-fA-F]{6}$/;
-        expect(hexRegex.test(color)).toBe(true);
+
+        expect(color).toMatch(hexRegex);
+
 
         /* I don't know how to test the hue. */
         expect(this.calcSat(color)).toBeCloseTo(0.4, 0);
@@ -182,20 +185,16 @@ describe("Please.make_color()",
 
     it("with colors_returned explicitly set",
       function (){
-        var colors_returned
-          = 256;
-        var colors = Please.make_color(
-          {
+        var colors_returned = 256;
+        var colors = Please.make_color({
             colors_returned: colors_returned
-          });
-        var hexRegex = /^#[0-9a-fA-F]{6}$/;
+        });
 
         expect(colors.length).toEqual(256);
 
         for (var i = 0; i < colors.length; i++)
         {
-
-          expect(hexRegex.test(colors[i])).toBe(true);
+          expect(colors[i]).toMatch(hexRegex);
 
           /* I don't know how to test the hue. */
           expect(this.calcSat(colors[i])).toBeCloseTo(0.4, 0);
@@ -210,9 +209,8 @@ describe("Please.make_color()",
           {
             format: "hex"
           })[0];
-        var hexRegex = /^#[0-9a-fA-F]{6}$/;
 
-        expect(hexRegex.test(color)).toBe(true);
+        expect(color).toMatch(hexRegex);
       }
      );
 
@@ -235,9 +233,10 @@ describe("Please.make_color()",
           {
             format: "rgb-string"
           })[0];
+
         var rgbRegex = /^rgb\((?:[0-9]{1,3},){2}[0-9]{1,3}\)$/;
 
-        expect(rgbRegex.test(color)).toBe(true);
+        expect(color).toMatch(rgbRegex);
 
         /** Parse color to validate it. **/
 
