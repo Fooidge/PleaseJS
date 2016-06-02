@@ -340,9 +340,9 @@
 
 			if( s === 0 ){
 				return {
-					r: v,
-					g: v,
-					b: v
+					r: Math.floor(v * 255),
+					g: Math.floor(v * 255),
+					b: Math.floor(v * 255)
 				};
 			}
 			h /= 60;
