@@ -37,7 +37,7 @@ full_random: (true/false)
 Setting full_random to true will make Please lose its mind. It will completely randomize the hue, saturation, and value of the colors it makes.
 
 colors_returned: (1-infinity)
-Setting colors_returned to higher than 1 will return an array full of the colors Please has made for you. If you set it to 1, you'll just get the one color! It makes a sort of sense if you think about it.
+Setting colors_returned will return an array of that many colors. Note: If you set it to 1, you'll get an array with only one color.
 
 format: ("format string")
 Setting format string, will change the format of what make_color will return for you. The options are as follows (example is the color black):

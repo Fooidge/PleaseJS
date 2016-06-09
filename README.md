@@ -42,7 +42,7 @@ You can also pass an options object to make_color and have it do a whole bunch o
  * **greyscale** | **grayscale**: `(true/false)` Setting either greyscale or grayscale (but we all know which one is correct) to true will cause all of the colors you generate to be within the grey or gray range. This is effectively the same as setting your saturation to 0.
  * **golden**: `(true/false)` Setting golden to true randomizes your hue (overrides hue setting) and makes you a spectacular color based on the golden ratio. It's so good, it's the default. Make sure to turn it off if you want to have more control over your generated colors.
  * **full_random**: `(true/false)` Setting full_random to true will make Please lose its mind. It will completely randomize the hue, saturation, and value of the colors it makes.
- * **colors_returned**: `(1-infinity)` Setting colors_returned to higher than 1 will return an array full of the colors Please has made for you. If you set it to 1, you'll just get the one color! It makes a sort of sense if you think about it.
+ * **colors_returned**: `(1-infinity)` Setting colors_returned will return an array of that many colors. Note: If you set it to 1, you'll get an array with only one color.
  * **format**: `('format string')` Setting format string, will change the format of what make_color will return for you. The options are as follows (example is the color black):
 	 * `'hex'` = '#000000'
 	 * `'rgb'` = {r: 0, g: 0,b: 0}
