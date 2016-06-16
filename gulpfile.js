@@ -2,13 +2,15 @@ var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
 	uglify = require('gulp-uglify'),
 	watch = require('gulp-watch'),
-	bump = require('gulp-bump');
+	bump = require('gulp-bump'),
+	rename = require('gulp-rename');
 
 gulp.task('uglify', function(){
 	gulp.src('src/Please.js')
 		.pipe(uglify({
 			preserveComments: 'some',
 		}))
+		.pipe(rename({extname: ".min.js"}))
 		.pipe(gulp.dest('dist'));
 });
 gulp.task('lint', function(){
