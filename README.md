@@ -1,4 +1,4 @@
-#PleaseJS
+# PleaseJS
 
 www.checkman.io/please
 
@@ -21,7 +21,7 @@ Please.make_scheme(
 });
 ```
 
-##Core
+## Core
 
 ### make_color
 
